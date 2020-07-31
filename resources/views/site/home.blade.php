@@ -189,7 +189,7 @@ function createSchedule() {
             <div class="row mt-4 mb-4 instructor-box mx-auto">
                 <div class="col-md-4 col-lg-2 col-xl-3 pt-4 pb-4">
                     <a href="{{ route('instructor.view', $instructor->instructor_slug) }}">
-                        <img src="@if(Storage::exists($instructor->instructor_image)){{ Storage::url($instructor->instructor_image) }}@else{{ asset('backend/assets/images/course_detail_thumb.jpg') }}@endif" id="instructorPhoto" style="width: 100%;">
+                        <img src="@if(Storage::exists($instructor->instructor_image)){{ Storage::url($instructor->instructor_image) }}@else{{ asset('backend/assets/images/female_profile.png') }}@endif" id="instructorPhoto" style="width: 100%;">
                     </a>
                     <input type="hidden" class="instructor-id" value="{{ $instructor->id }}">
                 </div>

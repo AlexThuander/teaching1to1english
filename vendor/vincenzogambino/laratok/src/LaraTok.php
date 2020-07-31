@@ -48,7 +48,7 @@ class LaraTok {
    *     ]
    * @return string $session_id
    */
-    public function generateSession($params=NULL) {
+    public function generateSession($instuctor_id, $params=NULL) {
 
       // Build sessionsOption array
       $sessionOptions = array(
@@ -67,6 +67,7 @@ class LaraTok {
 
       // Save session in the database.
       LaraTokSessionModel::create([
+        'instructor_id' => $instuctor_id,
         'session_name' => $name,
         'sessionId' => $session_id,
         'media_mode' => $sessionOptions['mediaMode'],
@@ -120,7 +121,7 @@ class LaraTok {
    *     ]
    * @return string $session_id
    */
-    public function generateToken($session_id, $params=NULL)  {
+    public function generateToken($lesson_id, $session_id, $params=NULL)  {
 
       // Generate tokenOptions array.
       $tokenOptions = array(
@@ -133,7 +134,8 @@ class LaraTok {
       $laratok_session_id = LaraTokSessionModel::where('sessionId', '=', $session_id)->firstOrFail();
 
       // Save token in database.
-       LaraTokTokenModel::create([
+      LaraTokTokenModel::create([
+        'lesson_progress_id' => $lesson_id,
         'session_id' => $laratok_session_id['id'],
         'token_id' => $this->token,
         'role' => $tokenOptions['role'],
