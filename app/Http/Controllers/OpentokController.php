@@ -184,6 +184,8 @@ class OpentokController extends Controller
             ->get()
             ->first();
 
+        if ($laratok == null) return redirect()->back();
+
         return view('simples', compact('laratok'));
     }
 }
