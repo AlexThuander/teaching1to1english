@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use DB;
 use OpenTok\OpenTok;
-use LaraTokSessionModel;
-use LaraTokTokenModel;
+use App\Models\LaraTokSessionModel;
+use App\Models\LaraTokTokenModel;
 
 class OpentokController extends Controller
 {
