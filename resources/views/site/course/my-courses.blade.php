@@ -29,7 +29,7 @@
             @foreach($lessons as $lesson)
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                         <div class="course-block mx-auto">
-                        <a href="" class="c-view">
+                        <a href="{{ route('student.opentok.open') }}" class="c-view">
                             <main>
                                 <img src="@if(Storage::exists($lesson->instructor_image)){{ Storage::url($lesson->instructor_image) }}@else{{ asset('backend/assets/images/female_profile.png') }}@endif">
                                 <div class="col-md-12"><h6 class="course-title">{{ $lesson->start_datetime }}&nbsp;-&nbsp;@php echo date_format(date_create($lesson->end_datetime), "H:i:s") @endphp</h6></div>
