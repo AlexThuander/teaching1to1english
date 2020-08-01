@@ -9,6 +9,7 @@ class LaraTokTokenModel extends Model
     //
     protected $table = 'laratok_tokens';
     protected $fillable = [
+      'lesson_progress_id',
       'session_id',
       'token_id',
       'role',

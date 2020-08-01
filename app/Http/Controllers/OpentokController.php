@@ -148,7 +148,7 @@ class OpentokController extends Controller
         // Check if session example already exists.
         $sessions = DB::table('laratok_sessions')
             ->select('sessionId')
-            ->where('instructor_id', '=', \Auth::user()->id)
+            ->where('instructor_id', '=', \Auth::user()->instructor->id)
             ->get()
             ->first();
 
@@ -156,7 +156,7 @@ class OpentokController extends Controller
         if ($sessions == NULL) {
             $session_params = array();
             $session_params['name'] = self::LARATOK_SESSION_NAME_EXAMPLE;
-            $session = $this->generateSession(\Auth::user()->id, $session_params);
+            $session = $this->generateSession(\Auth::user()->instructor->id, $session_params);
             $this->generateToken($request->lesson_id, $session);
         }
 
@@ -165,7 +165,7 @@ class OpentokController extends Controller
             ->select('sessionId')
             ->crossJoin('laratok_tokens', 'laratok_sessions.id', '=', 'laratok_tokens.session_id')
             ->select('laratok_tokens.*', 'laratok_sessions.*')
-            ->where('laratok_sessions.instructor_id', \Auth::user()->id)
+            ->where('laratok_sessions.instructor_id', \Auth::user()->instructor->id)
             ->where('laratok_tokens.lesson_progress_id', $request->lesson_id)
             ->get()
             ->first();
