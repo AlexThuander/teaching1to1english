@@ -172,4 +172,18 @@ class OpentokController extends Controller
 
         return view('simples', compact('laratok'));
     }
+
+    public function studentOpentok(Request $request)
+    {
+        // Retrieve session and token.
+        $laratok = DB::table('laratok_sessions')
+            ->select('sessionId')
+            ->crossJoin('laratok_tokens', 'laratok_sessions.id', '=', 'laratok_tokens.session_id')
+            ->select('laratok_tokens.*', 'laratok_sessions.*')
+            ->where('laratok_tokens.lesson_progress_id', $request->lesson_id)
+            ->get()
+            ->first();
+
+        return view('simples', compact('laratok'));
+    }
 }
