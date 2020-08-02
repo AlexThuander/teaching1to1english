@@ -35,13 +35,58 @@ class InstructorController extends Controller
         
     }
 
-    public function instructorList()
+    public function instructorList(Request $request)
     {
-        $paginate_count = 8;
+        $category_search = $request->input('category_id');
+        $instruction_level_id = $request->input('instruction_level_id');
+        $keyword = $request->input('keyword');
         
-        $instructors = DB::table('instructors')->groupBy('instructors.id')->paginate($paginate_count);
-        return view('site.instructors', compact('instructors'));
+        $query = DB::table('instructors')
+                    ->select('instructors.*')
+                    ->join('users', 'users.id', '=', 'instructors.user_id')
+                    ->join('instructor_filters', 'instructor_filters.instructor_id', '=', 'instructors.id')
+                    ->where('users.is_active',1)
+                    ->groupBy('instructors.id');
         
+        //filter categories as per user selected                
+        if($category_search && $category_search != 0) {
+            $query->where('instructor_filters.category_id', $category_search);
+        }
+        //filter courses as per keyword
+        if($keyword) {
+            $query->where('instructor_filters.first_name', 'LIKE', '%' . $keyword . '%');
+            $query->orWhere('instructor_filters.last_name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        //filter instruction levels as per user selected                
+        if($instruction_level_id && $instruction_level_id != 0) {
+            $query->where('instructor_filters.instruction_level_id', $instruction_level_id);
+        }
+        
+        $instructors = $query->paginate(8);
+
+        foreach($instructors as $key => $instructor) {
+
+            $student_count = DB::table('lesson_progress')
+                            ->select('lesson_progress.*')
+                            ->where('lesson_progress.instructor_id',$instructor->id)
+                            ->where('end_datetime','>','now()')
+                            ->groupBy('lesson_progress.student_id')
+                            ->get()
+                            ->count();
+
+            $lesson_count = DB::table('lesson_progress')
+                            ->select('lesson_progress.*')
+                            ->where('lesson_progress.instructor_id',$instructor->id)
+                            ->where('end_datetime','>','now()')
+                            ->get()
+                            ->count();
+
+            $instructors[$key]->student_count = $student_count;
+            $instructors[$key]->lesson_count = $lesson_count;
+        }
+
+        return view('site/home', compact('instructors', 'category_search', 'instruction_level_id'));       
     }
 
     public function instructorView($instructor_slug = '', Request $request)

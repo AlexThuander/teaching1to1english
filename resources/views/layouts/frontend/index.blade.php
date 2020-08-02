@@ -24,41 +24,17 @@
 
     <nav class="navbar navbar-default fixed-top">
         <div class="row" style="flex-grow: 1;">
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2" id="logo">
+            <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2" id="logo">
                 <i class="fa fa-bars d-inline-block d-md-none mobile-nav"></i>
                 <a href="{{ route('home') }}" class="float-xl-right"><img src="{{ asset('frontend/img/logo.png') }}" width="100" height="23" /></a>
             </div>
+
             <div class="col-md-2 col-lg-3 col-xl-3 d-none d-md-block">
-                <div class="dropdown float-left" >
-                  <span id="dropdownMenuButton" data-toggle="dropdown">Categories &nbsp;<i class="fa fa-caret-down"></i></span>
-                    <?php 
-                        $categories = SiteHelpers::active_categories();
-                    ?>
-                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    @foreach ($categories as $category)
-                        <a class="dropdown-item" href="{{ route('course.list','category_id[]='.$category->id) }}">
-                            <i class="fa {{ $category->icon_class }} category-menu-icon"></i>
-                            {{ $category->name}}
-                        </a>
-                    @endforeach
-                  </div>
-                </div>
+                
             </div>
 
             <div class="col-md-2 col-lg-3 col-xl-3 d-none d-md-block">
-                <div class="dropdown float-left" >
-                  <span id="dropdownMenuButton" data-toggle="dropdown">Levels &nbsp;<i class="fa fa-caret-down"></i></span>
-                    <?php 
-                        $levels = SiteHelpers::instruction_levels();
-                    ?>
-                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    @foreach ($levels as $level)
-                        <a class="dropdown-item" href="{{ route('course.list','level_id[]='.$level->id) }}">
-                            {{ $level->level }}
-                        </a>
-                    @endforeach
-                  </div>
-                </div>
+                
             </div>
 
             <div class="col-sm-5 col-md-3 col-lg-2 col-xl-2 d-none d-sm-block">
@@ -66,7 +42,6 @@
                 <span class="become-instructor" href="{{ route('login') }}" data-toggle="modal" data-target="#myModal">Become Teacher</span>
                 @endif
             </div>
-
             
             @guest
             <div class="col-6 col-sm-3 col-md-3 col-lg-2 col-xl-2">

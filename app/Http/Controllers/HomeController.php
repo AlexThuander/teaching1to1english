@@ -29,7 +29,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        
         $latestTab_courses = DB::table('courses')
                     ->select('courses.*', 'instructors.first_name', 'instructors.last_name')
                     ->selectRaw('AVG(course_ratings.rating) AS average_rating')
@@ -68,8 +67,7 @@ class HomeController extends Controller
                         ->join('users', 'users.id', '=', 'instructors.user_id')
                         ->where('users.is_active',1)
                         ->groupBy('instructors.id')
-                        ->limit(8)
-                        ->get();
+                        ->paginate(8);
         
         foreach($instructors as $key => $instructor) {
 

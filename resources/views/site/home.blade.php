@@ -163,19 +163,48 @@ function createSchedule() {
 @endsection
 
 @section('content')
+<!-- banner start -->
+<div class="homepage-slide-blue home-content">
+    <form method="GET" action="{{ route('instructor.list') }}" id="selTeacherForm"></form>
+    <div class="container">
+        <div class="row">
+            <div class="col-2 col-sm-1 col-md-2 col-lg-1 col-xl-1 mt-4 text-right"><label for="selCategory">Types:</label></div>
+            <div class="col-10 col-sm-11 col-md-4 col-lg-3 col-xl-3 mt-3">
+                @php 
+                    $categories = SiteHelpers::active_categories();
+                @endphp
+                <select class="form-control" id="selCategory" name="category_id" form="selTeacherForm" onchange="this.form.submit();">
+                    <option value="0"></option>
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" @if(isset($category_search) && $category->id == $category_search) selected @endif>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-2 col-sm-1 col-md-2 col-lg-1 col-xl-1 mt-4 text-right"><label for="selInstructionLevel">Levels:</label></div>
+            <div class="col-10 col-sm-11 col-md-4 col-lg-3 col-xl-3 mt-3">
+                @php 
+                    $instruction_levels = SiteHelpers::instruction_levels();
+                @endphp
+                <select class="form-control" id="selInstructionLevel" name="instruction_level_id" form="selTeacherForm" onchange="this.form.submit();">
+                    <option value="0"></option>
+                    @foreach ($instruction_levels as $instruction_level)
+                    <option value="{{ $instruction_level->id }}" @if(isset($instruction_level_id) && $instruction_level->id == $instruction_level_id) selected @endif>{{ $instruction_level->level }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="searchbox-contrainer col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mx-auto">
+                <input name="keyword" type="text" class="searchbox d-none d-sm-inline-block" placeholder="Search by name or keyword"><input name="keyword" type="text" class="searchbox d-inline-block d-sm-none" placeholder="Search for courses"><button type="submit" class="searchbox-submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- banner end -->
+
 <!-- content start -->
 <div class="container-fluid p-0 home-content">
-    <!-- banner start -->
-    <div class="homepage-slide-blue">
-        <h1></h1>
-        <form method="GET" action="{{ route('course.list') }}">
-        <div class="searchbox-contrainer col-md-6 mx-auto">
-            <input name="keyword" type="text" class="searchbox d-none d-sm-inline-block" placeholder="Search for teachers by teacher names"><input name="keyword" type="text" class="searchbox d-inline-block d-sm-none" placeholder="Search for courses"><button type="submit" class="searchbox-submit"><i class="fa fa-search"></i></button>
-        </div>
-        </form>
-    </div>
-    <!-- banner end -->
-
+    
     <!-- instructor block start -->
     <article class="instructor-block">
         <div class="container">

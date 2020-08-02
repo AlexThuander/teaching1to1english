@@ -24,9 +24,9 @@ if it's not present, don't show loader */
     height: 60px;
 }
 @media  (max-width: 768px) {
-.navbar-default {
-    /*background: #fafafa;*/
-}
+    .navbar-default {
+        /*background: #fafafa;*/
+    }
 }
 .about-ul >li{
     padding-left: 17px;
@@ -229,9 +229,10 @@ nav.secondary-nav ul li a.active{color:#14bef0;font-weight:bold;}
 .homepage-slide-blue {
     color: #fff;
     background-color: #28328c;
-    height: 200px;
+    height: auto;
     position: relative;
     text-align: center;
+    padding-bottom: 15px;
 }
 
 .homepage-slide-blue h1{
@@ -242,9 +243,9 @@ nav.secondary-nav ul li a.active{color:#14bef0;font-weight:bold;}
     font-size: 18px;
 }
 
-.homepage-slide-blue .searchbox-contrainer{line-height:50px;padding:0 0 0 20px;margin-top:40px;}
-.homepage-slide-blue .searchbox-contrainer .searchbox{width:70%;height:50px;border:none;padding-left:20px;border-radius:2px;}
-.homepage-slide-blue .searchbox-contrainer .searchbox-submit{height:50px;width:80px;font-size:13px;line-height:50px;color:#fff;text-align:center;border-left:1px solid #28328c;background-color:#14bef0;cursor:pointer;border-radius:2px;}
+.homepage-slide-blue .searchbox-contrainer{line-height:40px;padding:0 0 0 20px;margin-top:15px;}
+.homepage-slide-blue .searchbox-contrainer .searchbox{width:70%;height:40px;border:none;padding-left:20px;border-radius:2px;}
+.homepage-slide-blue .searchbox-contrainer .searchbox-submit{height:40px;width:80px;font-size:13px;line-height:41px;color:#fff;text-align:center;border-left:1px solid #28328c;background-color:#14bef0;cursor:pointer;border-radius:2px;}
 .pos-relative{position:relative;}
 
 .searchbox-submit i{font-size: 20px;}
