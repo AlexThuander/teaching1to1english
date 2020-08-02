@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Config;
 use App\Models\Course;
+use App\Models\InstructionLevel;
 class SiteHelpers
 {
     public static function getCoursecompletedStatus($lecture_id)
@@ -29,6 +30,11 @@ class SiteHelpers
     public static function active_categories()
     {
         return Category::where('is_active', 1)->get();
+    }
+
+    public static function instruction_levels()
+    {
+        return InstructionLevel::get();
     }
 
     public static function get_option($code = '', $option_key = '')

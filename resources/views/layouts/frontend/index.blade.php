@@ -47,15 +47,14 @@
 
             <div class="col-md-2 col-lg-3 col-xl-3 d-none d-md-block">
                 <div class="dropdown float-left" >
-                  <span id="dropdownMenuButton" data-toggle="dropdown">Categories &nbsp;<i class="fa fa-caret-down"></i></span>
+                  <span id="dropdownMenuButton" data-toggle="dropdown">Levels &nbsp;<i class="fa fa-caret-down"></i></span>
                     <?php 
-                        $categories = SiteHelpers::active_categories();
+                        $levels = SiteHelpers::instruction_levels();
                     ?>
                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    @foreach ($categories as $category)
-                        <a class="dropdown-item" href="{{ route('course.list','category_id[]='.$category->id) }}">
-                            <i class="fa {{ $category->icon_class }} category-menu-icon"></i>
-                            {{ $category->name}}
+                    @foreach ($levels as $level)
+                        <a class="dropdown-item" href="{{ route('course.list','level_id[]='.$level->id) }}">
+                            {{ $level->level }}
                         </a>
                     @endforeach
                   </div>
