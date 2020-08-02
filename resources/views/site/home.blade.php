@@ -203,7 +203,7 @@ function createSchedule() {
 <!-- banner end -->
 
 <!-- content start -->
-<div class="container-fluid p-0 home-content">
+<div class="container-fluid p-0">
     
     <!-- instructor block start -->
     <article class="instructor-block">
