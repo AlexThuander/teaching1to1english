@@ -62,16 +62,19 @@
                 </div>
             </div>
 
-            <div class="col-sm-5 col-md-2 col-lg-2 col-xl-2 d-none d-sm-block">
+            <div class="col-sm-5 col-md-3 col-lg-2 col-xl-2 d-none d-sm-block">
                 @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
                 <span class="become-instructor" href="{{ route('login') }}" data-toggle="modal" data-target="#myModal">Become Teacher</span>
                 @endif
             </div>
 
+            
+            @guest
             <div class="col-6 col-sm-3 col-md-3 col-lg-2 col-xl-2">
-                @guest
                 <a class="btn btn-learna" href="{{ route('login') }}">Login / Sign Up</a>
-                @else
+            </div>
+            @else
+            <div class="col-6 col-sm-3 col-md-2 col-lg-2 col-xl-2">
                 <div class="dropdown float-xl-left float-sm-right float-right">
                   <span id="dropdownMenuButtonRight" data-toggle="dropdown">{{ Auth::user()->first_name }} &nbsp;<i class="fa fa-caret-down"></i></span>
                     
@@ -93,9 +96,8 @@
                     
                   </div>
                 </div>
-
-                @endguest
             </div>
+            @endguest
         </div>
     </nav>
 
