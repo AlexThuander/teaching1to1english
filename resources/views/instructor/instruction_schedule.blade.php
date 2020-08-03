@@ -121,46 +121,46 @@
 <div class="page-header">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('instructor.dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Schedule</li>
+    <li class="breadcrumb-item active">Lesson Schedule</li>
   </ol>
-  <h1 class="page-title">Schedule</h1>
+  <h1 class="page-title">Lesson Schedule</h1>
 </div>
 
 <div class="page-content">
 
-<div class="panel">
-        <div class="panel-heading">
-            <div class="panel-title">
-                
-            </div>
+  <div class="panel">
+    <div class="panel-heading">
+        <div class="panel-title">
+            
         </div>
-        
-        <div class="panel-body">
-          
-        <div id='top'>
+    </div>
+    
+    <div class="panel-body">
+      
+      <div id='top'>
 
-          <div class='left'>
-            Timezone:
-            <select id='time-zone-selector'>
-              <option value='local' selected>local</option>
-              <option value='UTC'>UTC</option>
-            </select>
-          </div>
-
-          <div class='right'>
-            <span id='loading'>loading...</span>
-            <span id='script-warning'><code>{{ route('fullcalendar.getEvents') }}</code> must be running.</span>
-          </div>
-
-          <div class='clear'></div>
-
-          </div>
-
-          <div id='calendar'></div>
-                    
+        <div class='left'>
+          Timezone:
+          <select id='time-zone-selector'>
+            <option value='local' selected>local</option>
+            <option value='UTC'>UTC</option>
+          </select>
         </div>
+
+        <div class='right'>
+          <span id='loading'>loading...</span>
+          <span id='script-warning'><code>{{ route('fullcalendar.getEvents') }}</code> must be running.</span>
+        </div>
+
+        <div class='clear'></div>
+
       </div>
-      <!-- End Panel Basic -->
+
+      <div id='calendar'></div>
+                
+    </div>
+  </div>
+  <!-- End Panel Basic -->
 </div>
 
 @endsection

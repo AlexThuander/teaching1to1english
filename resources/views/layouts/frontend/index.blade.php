@@ -75,6 +75,10 @@
         </div>
     </nav>
 
+    @php 
+        $categories = SiteHelpers::active_categories();
+    @endphp
+    
     <div id="sidebar">
         <ul>
            <li><a href="javascript:void(0)" class="sidebar-title">Categories</a></li>

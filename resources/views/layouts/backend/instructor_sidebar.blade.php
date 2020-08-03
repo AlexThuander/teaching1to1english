@@ -17,7 +17,13 @@
         <li class="site-menu-item {{ request()->is('instructor-schedule-*') ? 'active' : '' }}">
             <a href="{{ route('instructor.schedule.list') }}">
                 <i class="site-menu-icon fas fa-calendar-check" aria-hidden="true"></i>
-                <span class="site-menu-title">Schedule</span>
+                <span class="site-menu-title">Teacher Schedule</span>
+            </a>
+        </li>
+        <li class="site-menu-item {{ request()->is('instruction-schedule-*') ? 'active' : '' }}">
+            <a href="{{ route('instruction.schedule.list') }}">
+                <i class="site-menu-icon fas fa-calendar-week" aria-hidden="true"></i>
+                <span class="site-menu-title">Lesson Schedule</span>
             </a>
         </li>
         <li class="site-menu-item {{ request()->is('instructor-course-*') ? 'active' : '' }}">

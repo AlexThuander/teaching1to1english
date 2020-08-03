@@ -174,7 +174,7 @@ function createSchedule() {
                     $categories = SiteHelpers::active_categories();
                 @endphp
                 <select class="form-control" id="selCategory" name="category_id" form="selTeacherForm" onchange="this.form.submit();">
-                    <option value="0"></option>
+                    <option value="0">All</option>
                     @foreach ($categories as $category)
                     <option value="{{ $category->id }}" @if(isset($category_search) && $category->id == $category_search) selected @endif>{{ $category->name }}</option>
                     @endforeach
@@ -187,7 +187,7 @@ function createSchedule() {
                     $instruction_levels = SiteHelpers::instruction_levels();
                 @endphp
                 <select class="form-control" id="selInstructionLevel" name="instruction_level_id" form="selTeacherForm" onchange="this.form.submit();">
-                    <option value="0"></option>
+                    <option value="0">All</option>
                     @foreach ($instruction_levels as $instruction_level)
                     <option value="{{ $instruction_level->id }}" @if(isset($instruction_level_id) && $instruction_level->id == $instruction_level_id) selected @endif>{{ $instruction_level->level }}</option>
                     @endforeach
@@ -352,6 +352,11 @@ function createSchedule() {
                 </div>
             </div>
             @endforeach
+            <!-- pagination start -->
+            <div class="row float-right mt-5">
+                {{ $instructors->appends($_GET)->links() }}
+            </div>
+            <!-- pagination end -->
         </div>
     </article>
     <!-- instructor block end -->

@@ -89,6 +89,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('instructor-profile', 'InstructorController@saveProfile')->name('instructor.profile.save');
 
         Route::get('instructor-schedule-list', 'ScheduleController@instructorScheduleList')->name('instructor.schedule.list');
+        Route::get('instructor-schedule-get', 'ScheduleController@getInstructorSchedule')->name('instructor.schedule.get');
+        Route::post('instructor-schedule-save', 'ScheduleController@saveInstructorSchedule')->name('instructor.schedule.save');
+        Route::post('instructor-schedule-delete', 'ScheduleController@deleteInstructorSchedule')->name('instructor.schedule.delete');
+        Route::get('instruction-schedule-list', 'ScheduleController@instructionScheduleList')->name('instruction.schedule.list');
 
         Route::get('course-create', 'CourseController@createInfo')->name('instructor.course.create');
         Route::get('instructor-course-list', 'CourseController@instructorCourseList')->name('instructor.course.list');
