@@ -34,6 +34,8 @@ class HomeController extends Controller
                         ->join('users', 'users.id', '=', 'instructors.user_id')
                         ->where('users.is_active',1)
                         ->groupBy('instructors.id')
+                        ->orderByDesc('instructors.instructor_price')
+                        ->orderByDesc('instructors.instructor_stars')
                         ->limit(4)
                         ->get();
         
