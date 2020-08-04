@@ -454,7 +454,7 @@
 </footer>
 <script src="{{asset('welcome/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('welcome/js/jquery.min.js')}}"></script>
-<script src="{{asset('welcome/bootstrap/bootstrap.min.js')}}"></script>
+<script src="{{asset('welcome/bootstrap/js/bootstrap.min.js')}}"></script>
 <script type="text/javascript">
     $(function () {
         "use strict"

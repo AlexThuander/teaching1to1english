@@ -41,7 +41,7 @@ class InstructorController extends Controller
         $this->this_week_ed = date("Y-m-d", $sunday);
     }
 
-    public function instructorList($timezone, Request $request)
+    public function instructorList($timezone='GMT', Request $request)
     {
         $category_search = $request->input('category_id');
         $instruction_level_id = $request->input('instruction_level_id');

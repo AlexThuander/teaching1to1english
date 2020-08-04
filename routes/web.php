@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('welcome');
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logOut');
 
@@ -18,7 +18,7 @@ Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social'
 
 Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|github|bitbucket');
 
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'InstructorController@instructorList')->name('home');
 
 Route::get('about', 'HomeController@pageAbout')->name('page.about');
 Route::get('contact', 'HomeController@pageContact')->name('page.contact');
