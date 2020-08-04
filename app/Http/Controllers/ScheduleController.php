@@ -62,13 +62,49 @@ class ScheduleController extends Controller
         $events = array();
         foreach($lesson_progresses as $lesson_progress) {
             $event = new \stdClass();
-            $event->start = str_replace(' ', 'T', $lesson_progress->start_datetime);
-            $event->end = str_replace(' ', 'T', $lesson_progress->end_datetime);
+            $event->start = str_replace(' ', 'T', $lesson_progress->start_time);
+            $event->end = str_replace(' ', 'T', $lesson_progress->end_time);
             $event->constraint = 'availableForLesson';
             $event->color = '#257e4a';
             $events[] = $event;
-        }//var_dump(json_encode($events));exit;
+        }
         return view('instructor.instruction_schedule')->with('events', json_encode($events));
     }
 
+    public function getBookedSchedule($instructor_id = 0)
+    {
+        $events = array();
+
+        $instructor_available_times = InstructorAvailableTime::where('instructor_id', $instructor_id)->get();        
+        foreach($instructor_available_times as $instructor_available_time) {
+            $event = new \stdClass();
+            $event->groupId = 'availableForLesson';
+            $event->start = str_replace(' ', 'T', $instructor_available_time->start_time);
+            $event->end = str_replace(' ', 'T', $instructor_available_time->end_time);
+            $event->display = 'background';
+            $events[] = $event;
+        }
+
+        $other_booked_times = LessonProgress::where('instructor_id', $instructor_id)->where('user_id', '<>', \Auth::user()->id)->get();
+        foreach($other_booked_times as $other_booked_time) {
+            $event = new \stdClass();
+            $event->start = str_replace(' ', 'T', $other_booked_time->start_time);
+            $event->end = str_replace(' ', 'T', $other_booked_time->end_time);
+            $event->display = 'background';
+            $event->color = '#DCDCDC';
+            $events[] = $event;
+        }
+
+        $user_booked_times = LessonProgress::where('instructor_id', $instructor_id)->where('user_id', '=', \Auth::user()->id)->get();
+        foreach($user_booked_times as $user_booked_time) {
+            $event = new \stdClass();
+            $event->start = str_replace(' ', 'T', $user_booked_time->start_time);
+            $event->end = str_replace(' ', 'T', $user_booked_time->end_time);
+            $event->display = 'background';
+            $event->color = '#ff786b';
+            $events[] = $event;
+        }
+
+        return response()->json($events);
+    }
 }

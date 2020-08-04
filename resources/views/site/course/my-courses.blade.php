@@ -32,7 +32,7 @@
                         <a href="{{ route('student.opentok.open', $lesson->id) }}" class="c-view">
                             <main>
                                 <img src="@if(Storage::exists($lesson->instructor_image)){{ Storage::url($lesson->instructor_image) }}@else{{ asset('backend/assets/images/female_profile.png') }}@endif">
-                                <div class="col-md-12"><h6 class="course-title">{{ $lesson->start_datetime }}&nbsp;-&nbsp;@php echo date_format(date_create($lesson->end_datetime), "H:i:s") @endphp</h6></div>
+                                <div class="col-md-12"><h6 class="course-title">{{ $lesson->start_time }}&nbsp;-&nbsp;@php echo date_format(date_create($lesson->end_time), "H:i:s") @endphp</h6></div>
                                 
                                 <div class="instructor-clist">
                                     <div class="col-md-12">

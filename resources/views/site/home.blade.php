@@ -23,6 +23,7 @@ function createSchedule() {
       },
       initialDate: (new Date()).toISOString().split('T')[0],
       initialView: 'timeGridWeek',
+      firstDay: 1,
       navLinks: true, // can click day/week names to navigate views
       businessHours: false, // display business hours
       editable: false,
@@ -81,51 +82,21 @@ function createSchedule() {
         if (--g_remain_events_count == 0) $('#btnLastOptions').removeClass('disabled');
       },
       eventClick: function(arg) {
-          arg.event.remove();
           g_added_events.forEach(function(ev, index) {
-            if (ev.id != arg.event.getEventId()) return;
+            if (ev.id != arg.event.id) return;
             g_added_events.splice(index, 1);
           })
+          arg.event.remove();
       },
       eventRemove: function(info) {
         g_remain_events_count++;
       },
-      events: [
-        {
-          start: '2020-07-21T11:00:00',
-          end: '2020-07-21T12:00:00',
-          constraint: 'availableForLesson', // defined below
-          color: '#257e4a'
-        },
-        {
-          start: '2020-07-21T13:00:00',
-          end: '2020-07-21T14:00:00',
-          constraint: 'availableForLesson', // defined below
-          color: '#257e4a'
-        },
-        // areas where "Meeting" must be dropped
-        {
-          groupId: 'availableForLesson',
-          start: '2020-07-21T10:00:00',
-          end: '2020-07-21T13:00:00',
-          display: 'background'
-        },
-        {
-          groupId: 'availableForLesson',
-          start: '2020-07-21T13:00:00',
-          end: '2020-07-21T16:00:00',
-          display: 'background'
-        },
-
-        // red areas where no events can be dropped
-        {
-          start: '2020-07-24',
-          end: '2020-07-28',
-          overlap: false,
-          display: 'background',
-          color: '#DCDCDC'
-        },
-      ]
+      events: {
+        url: "{{ route('instructor.schedule.booked.get', 0) }}" + $('#bookInstructorId').val(),
+        failure: function() {
+            document.getElementById('script-warning').style.display = 'inline'; // show
+        }
+      },
     });
 
     calendar.render();
@@ -165,7 +136,7 @@ function createSchedule() {
 @section('content')
 <!-- banner start -->
 <div class="homepage-slide-blue home-content">
-    <form method="GET" action="{{ route('instructor.list') }}" id="selTeacherForm"></form>
+    <form method="GET" action="{{ route('instructor.list', '_') }}" id="selTeacherForm"></form>
     <div class="container">
         <div class="row">
             <div class="col-2 col-sm-1 col-md-2 col-lg-1 col-xl-1 mt-4 text-right"><label for="selCategory">Types:</label></div>
@@ -195,7 +166,7 @@ function createSchedule() {
             </div>
             
             <div class="searchbox-contrainer col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mx-auto">
-                <input name="keyword" type="text" class="searchbox d-none d-sm-inline-block" placeholder="Search by name or keyword"><input name="keyword" type="text" class="searchbox d-inline-block d-sm-none" placeholder="Search for courses"><button type="submit" class="searchbox-submit"><i class="fa fa-search"></i></button>
+                <input name="keyword" type="text" class="searchbox d-none d-sm-inline-block" placeholder="Search by name or keyword"><input name="keyword" type="text" class="searchbox d-inline-block d-sm-none" placeholder="Search for name or keyword"><button type="submit" class="searchbox-submit"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -292,54 +263,94 @@ function createSchedule() {
                             <table class="table table-bordered table-sm">
                                 <thead>
                                     <th></th>
-                                    <th>Su</th>
                                     <th>Mo</th>
                                     <th>Tu</th>
                                     <th>We</th>
                                     <th>Th</th>
                                     <th>Fr</th>
                                     <th>Sa</th>
+                                    <th>Su</th>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Morning<br>06:00-12:00</td>
+                                        @if(isset($instructor->timespans))
+                                        @foreach($instructor->timespans['morning'] as $timespan)
+                                        @if($timespan >= 4)
                                         <td class="cell-high"></td>
-                                        <td class="cell-high"></td>
-                                        <td class="cell-high"></td>
-                                        <td class="cell-high"></td>
-                                        <td class="cell-high"></td>
-                                        <td class="cell-high"></td>
-                                        <td class="cell-high"></td>
+                                        @elseif($timespan >= 2)
+                                        <td class="cell-medium"></td>
+                                        @elseif($timespan > 0)
+                                        <td class="cell-low"></td>
+                                        @else
+                                        <td></td>
+                                        @endif
+                                        @endforeach
+                                        @else
+                                        @for($i=0;$i<7;$i++)
+                                        <td></td>
+                                        @endfor
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td>Afternoon<br>12:00-18:00</td>
+                                        @if(isset($instructor->timespans))
+                                        @foreach($instructor->timespans['afternoon'] as $timespan)
+                                        @if($timespan >= 4)
+                                        <td class="cell-high"></td>
+                                        @elseif($timespan >= 2)
                                         <td class="cell-medium"></td>
-                                        <td class="cell-medium"></td>
-                                        <td class="cell-medium"></td>
-                                        <td class="cell-medium"></td>
-                                        <td class="cell-medium"></td>
-                                        <td class="cell-medium"></td>
-                                        <td class="cell-medium"></td>
+                                        @elseif($timespan > 0)
+                                        <td class="cell-low"></td>
+                                        @else
+                                        <td></td>
+                                        @endif
+                                        @endforeach
+                                        @else
+                                        @for($i=0;$i<7;$i++)
+                                        <td></td>
+                                        @endfor
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td>Evening<br>18:00-24:00</td>
+                                        @if(isset($instructor->timespans))
+                                        @foreach($instructor->timespans['evening'] as $timespan)
+                                        @if($timespan >= 4)
+                                        <td class="cell-high"></td>
+                                        @elseif($timespan >= 2)
+                                        <td class="cell-medium"></td>
+                                        @elseif($timespan > 0)
                                         <td class="cell-low"></td>
-                                        <td class="cell-low"></td>
-                                        <td class="cell-low"></td>
-                                        <td class="cell-low"></td>
-                                        <td class="cell-low"></td>
-                                        <td class="cell-low"></td>
-                                        <td class="cell-low"></td>
+                                        @else
+                                        <td></td>
+                                        @endif
+                                        @endforeach
+                                        @else
+                                        @for($i=0;$i<7;$i++)
+                                        <td></td>
+                                        @endfor
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td>Night<br>00:00-06:00</td>
-                                        <td class="cell-empty"></td>
-                                        <td class="cell-empty"></td>
-                                        <td class="cell-empty"></td>
-                                        <td class="cell-empty"></td>
-                                        <td class="cell-empty"></td>
-                                        <td class="cell-empty"></td>
-                                        <td class="cell-empty"></td>
+                                        @if(isset($instructor->timespans))
+                                        @foreach($instructor->timespans['night'] as $timespan)
+                                        @if($timespan >= 4)
+                                        <td class="cell-high"></td>
+                                        @elseif($timespan >= 2)
+                                        <td class="cell-medium"></td>
+                                        @elseif($timespan > 0)
+                                        <td class="cell-low"></td>
+                                        @else
+                                        <td></td>
+                                        @endif
+                                        @endforeach
+                                        @else
+                                        @for($i=0;$i<7;$i++)
+                                        <td></td>
+                                        @endfor
+                                        @endif
                                     </tr>
                                 </tbody>
                             </table>
@@ -479,7 +490,7 @@ function createSchedule() {
                         <form method="POST" action="{{ route('payment.form') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
-                            <input type="hidden" name="instructor_id" id="bookInstructorId">
+                            <input type="hidden" name="instructor_id" id="bookInstructorId" value="0">
                             <input type="hidden" name="payment_method" value="paypal_express_checkout">
                             <input type="hidden" name="lesson_type" id="bookLessonType">
                             <input type="hidden" name="lesson_count" id="bookLessonCount">
@@ -660,6 +671,10 @@ function createSchedule() {
         $('#confirmSchedule').html(confirm_schedule_content);
 
         $('#bookLessonSchedule').val(JSON.stringify(g_added_events));
+    })
+
+    $(document).ready(function() {
+        $('#selTeacherForm').attr('action', $('#selTeacherForm').attr('action') + (new Date().toString().match(/([-\+][0-9]+)\s/)[1]));
     })
 </script>
 @endsection

@@ -117,9 +117,9 @@ class PaymentController extends Controller {
 				//save the lesson progress in DB
 				$lesson_progress = new LessonProgress;
 				$lesson_progress->instructor_id = $instructor_id;
-				$lesson_progress->student_id = \Auth::user()->id;
-				$lesson_progress->start_datetime = $event->start;
-				$lesson_progress->end_datetime = $event->end;
+				$lesson_progress->user_id = \Auth::user()->id;
+				$lesson_progress->start_time = $event->start;
+				$lesson_progress->end_time = $event->end;
 				$lesson_progress->status = 'pending';
 				$lesson_progress->save();
 				$lesson_progress_ids[] = $lesson_progress->id;

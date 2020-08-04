@@ -100,7 +100,7 @@
                     <li class="mb-1"><b>Quick Links</b></li>
                     <li><a href="{{ route('home') }}">Home Page</a></li>
                     <li><a href="{{ route('course.list') }}">Courses List</a></li>
-                    <li><a href="{{ route('instructor.list') }}">Instructors List</a></li>
+                    <li><a href="">Instructors List</a></li>
                     <li><a href="{{ route('blogs') }}">Blogs List</a></li>
                 </ul>
             </div>

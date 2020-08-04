@@ -46,7 +46,7 @@
                 <td>{{ $course->id }}</td>
                 <td>{{ $course->first_name }}</td>
                 <td>{{ $course->last_name }}</td>
-                <td>{{ $course->start_datetime }}&nbsp;-&nbsp;@php echo date_format(date_create($course->end_datetime), "H:i:s") @endphp</td>
+                <td>{{ $course->start_time }}&nbsp;-&nbsp;@php echo date_format(date_create($course->end_time), "H:i:s") @endphp</td>
                 <td>
                   @if($course->status == 'incomplete' && $course->expired == 0)
                   <span class="badge badge-primary">Active</span>

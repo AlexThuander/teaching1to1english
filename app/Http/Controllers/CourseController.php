@@ -44,10 +44,10 @@ class CourseController extends Controller
                     ->where('course_taken.user_id',$user_id)->get();
         
         $lessons = DB::table('lesson_progress')
-                    ->select('lesson_progress.id', 'lesson_progress.start_datetime', 'lesson_progress.end_datetime', 'instructors.first_name', 'instructors.last_name', 'instructors.instructor_image', 'instructors.instructor_stars')
+                    ->select('lesson_progress.id', 'lesson_progress.start_time', 'lesson_progress.end_time', 'instructors.first_name', 'instructors.last_name', 'instructors.instructor_image', 'instructors.instructor_stars')
                     ->join('instructors', 'instructors.id', '=', 'lesson_progress.instructor_id')
-                    ->where('lesson_progress.student_id', \Auth::user()->id)
-                    ->where('lesson_progress.end_datetime', '>', 'now()')
+                    ->where('lesson_progress.user_id', \Auth::user()->id)
+                    ->where('lesson_progress.end_time', '>', 'now()')
                     ->get();
         
         return view('site.course.my-courses', compact('lessons'));
@@ -350,8 +350,8 @@ class CourseController extends Controller
                         ->where('instructor_lessons.instructor_id', $instructor_id)
                         ->where('instructor_lessons.first_name', 'LIKE', '%' . $search . '%')
                         ->orWhere('instructor_lessons.last_name', 'LIKE', '%' . $search . '%')
-                        ->orWhere('instructor_lessons.start_datetime', 'LIKE', '%' . $search . '%')
-                        ->orWhere('instructor_lessons.end_datetime', 'LIKE', '%' . $search . '%')
+                        ->orWhere('instructor_lessons.start_time', 'LIKE', '%' . $search . '%')
+                        ->orWhere('instructor_lessons.end_time', 'LIKE', '%' . $search . '%')
                         ->paginate($paginate_count);
         }
         else {

@@ -25,6 +25,9 @@ use App\Mail\ContactInstructor;
 
 class InstructorController extends Controller
 {
+    private $this_week_sd;
+    private $this_week_ed;
+    
     /**
      * Create a new controller instance.
      *
@@ -32,10 +35,13 @@ class InstructorController extends Controller
      */
     public function __construct()
     {
-        
+        $monday = strtotime("last monday");        
+        $sunday = strtotime(date("Y-m-d", $monday)." +6 days");        
+        $this->this_week_sd = date("Y-m-d", $monday);
+        $this->this_week_ed = date("Y-m-d", $sunday);
     }
 
-    public function instructorList(Request $request)
+    public function instructorList($timezone, Request $request)
     {
         $category_search = $request->input('category_id');
         $instruction_level_id = $request->input('instruction_level_id');
@@ -70,20 +76,67 @@ class InstructorController extends Controller
             $student_count = DB::table('lesson_progress')
                             ->select('lesson_progress.*')
                             ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_datetime','>','now()')
-                            ->groupBy('lesson_progress.student_id')
+                            ->where('end_time','>','now()')
+                            ->groupBy('lesson_progress.user_id')
                             ->get()
                             ->count();
 
             $lesson_count = DB::table('lesson_progress')
                             ->select('lesson_progress.*')
                             ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_datetime','>','now()')
+                            ->where('end_time','>','now()')
                             ->get()
                             ->count();
 
+            $available_timespans = array();
+
+            $monday = strtotime("last monday");
+            $sunday = strtotime(date("Y-m-d", $monday)." +6 days");
+
+            $available_timespan = array();
+            for($i = $monday; $i <= $sunday; $i+=24*3600) {
+                $tarday = date('Y-m-d', $i);                
+                $start = $tarday . ' 06:00:00'; $end = $tarday . ' 12:00:00';
+
+                $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor->id, $start, $end, $start, $end])[0]->timespan/60;
+            }
+            $available_timespans['morning'] = $available_timespan;
+
+            $available_timespan = array();
+            for($i = $monday; $i <= $sunday; $i+=24*3600) {
+                $tarday = date('Y-m-d', $i);                
+                $start = $tarday . ' 06:00:00'; $end = $tarday . ' 12:00:00';
+                
+                $start = $tarday . ' 12:00:00'; $end = $tarday . ' 18:00:00';
+                $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor->id, $start, $end, $start, $end])[0]->timespan/60;
+            }
+            $available_timespans['afternoon'] = $available_timespan;
+
+            $available_timespan = array();
+            for($i = $monday; $i <= $sunday; $i+=24*3600) {
+                $tarday = date('Y-m-d', $i);                
+                $start = $tarday . ' 06:00:00'; $end = $tarday . ' 12:00:00';
+                
+                $start = $tarday . ' 18:00:00'; $end = $tarday . ' 24:00:00';
+                $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor->id, $start, $end, $start, $end])[0]->timespan/60;
+            }
+            $available_timespans['evening'] = $available_timespan;
+
+            $available_timespan = array();
+            for($i = $monday; $i <= $sunday; $i+=24*3600) {
+                $tarday = date('Y-m-d', $i);                
+                $start = $tarday . ' 06:00:00'; $end = $tarday . ' 12:00:00';
+                
+                $start = $tarday . ' 00:00:00'; $end = $tarday . ' 06:00:00';
+                $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor->id, $start, $end, $start, $end])[0]->timespan/60;
+            }
+            $available_timespans['night'] = $available_timespan;
+            
+            //var_dump($available_timespans);exit;
+
             $instructors[$key]->student_count = $student_count;
             $instructors[$key]->lesson_count = $lesson_count;
+            $instructors[$key]->timespans = $available_timespans;
         }
 
         return view('site/home', compact('instructors', 'category_search', 'instruction_level_id'));       

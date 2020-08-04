@@ -74,15 +74,15 @@ class HomeController extends Controller
             $student_count = DB::table('lesson_progress')
                             ->select('lesson_progress.*')
                             ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_datetime','>','now()')
-                            ->groupBy('lesson_progress.student_id')
+                            ->where('end_time','>','now()')
+                            ->groupBy('lesson_progress.user_id')
                             ->get()
                             ->count();
 
             $lesson_count = DB::table('lesson_progress')
                             ->select('lesson_progress.*')
                             ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_datetime','>','now()')
+                            ->where('end_time','>','now()')
                             ->get()
                             ->count();
 

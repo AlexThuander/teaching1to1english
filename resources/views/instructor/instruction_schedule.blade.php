@@ -18,6 +18,7 @@
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
       initialDate: (new Date()).toISOString().split('T')[0],
+      firstDay: 1,
       navLinks: true, // can click day/week names to navigate views
       businessHours: false, // display business hours
       editable: false,

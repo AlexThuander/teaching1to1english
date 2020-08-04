@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     initialDate: (new Date()).toISOString().split('T')[0],
     initialView: 'timeGridWeek',
+    firstDay: 1,
     navLinks: true, // can click day/week names to navigate views
     businessHours: false, // display business hours
     editable: false,
@@ -128,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .fc-day-today {
         background-color:inherit !important;
     }
-
+    
     .left { float: left }
     .right { float: right }
     .clear { clear: both }
@@ -159,8 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       <div id='top'>
 
-        <div class='left'>
-          Timezone:
+        <div class='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 input-group'>
+          <span class="input-group-addon">Timezone:</span>
           <select id='time-zone-selector' class="form-control">
             <option value='local' selected>local</option>
             <option value='UTC'>UTC</option>
@@ -169,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class='right'>
           <span id='loading'>loading...</span>
-          <span id='script-warning'><code>{{ route('instructor.schedule.get') }}</code> must be running.</span>
         </div>
 
         <div class='clear'></div>

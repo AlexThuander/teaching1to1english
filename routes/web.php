@@ -37,7 +37,7 @@ Route::get('course-breadcrumb', 'CourseController@saveBreadcrumb')->name('course
 
 Route::post('become-instructor', 'InstructorController@becomeInstructor')->name('become.instructor');
 
-Route::get('instructors', 'InstructorController@instructorList')->name('instructor.list');
+Route::get('instructors/{timezone}', 'InstructorController@instructorList')->name('instructor.list');
 Route::post('contact-instructor', 'InstructorController@contactInstructor')->name('contact.instructor');
 
 Route::post('contact-admin', 'HomeController@contactAdmin')->name('contact.admin');
@@ -78,6 +78,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('readPDF/{file_id}', 'CourseController@readPDF');
 
         Route::get('opentok/student/{lesson_id}', 'OpentokController@studentOpentok')->name('student.opentok.open');
+
+        Route::get('instructor-booked-schedule/{instructor_id}', 'ScheduleController@getBookedSchedule')->name('instructor.schedule.booked.get');
     });
 
     //Functions accessed by both student and instructor
