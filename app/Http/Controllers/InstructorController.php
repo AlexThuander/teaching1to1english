@@ -50,7 +50,7 @@ class InstructorController extends Controller
         $query = DB::table('instructors')
                     ->select('instructors.*')
                     ->join('users', 'users.id', '=', 'instructors.user_id')
-                    ->join('instructor_filters', 'instructor_filters.instructor_id', '=', 'instructors.id')
+                    ->leftJoin('instructor_filters', 'instructor_filters.instructor_id', '=', 'instructors.id')
                     ->where('users.is_active',1)
                     ->groupBy('instructors.id');
         
@@ -60,8 +60,8 @@ class InstructorController extends Controller
         }
         //filter courses as per keyword
         if($keyword) {
-            $query->where('instructor_filters.first_name', 'LIKE', '%' . $keyword . '%');
-            $query->orWhere('instructor_filters.last_name', 'LIKE', '%' . $keyword . '%');
+            $query->where('instructors.first_name', 'LIKE', '%' . $keyword . '%');
+            $query->orWhere('instructors.last_name', 'LIKE', '%' . $keyword . '%');
         }
 
         //filter instruction levels as per user selected                

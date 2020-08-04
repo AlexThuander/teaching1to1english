@@ -166,7 +166,7 @@ function createSchedule() {
             </div>
             
             <div class="searchbox-contrainer col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mx-auto">
-                <input name="keyword" type="text" class="searchbox d-none d-sm-inline-block" placeholder="Search by name or keyword"><input name="keyword" type="text" class="searchbox d-inline-block d-sm-none" placeholder="Search for name or keyword"><button type="submit" class="searchbox-submit"><i class="fa fa-search"></i></button>
+                <input name="keyword" type="text" class="searchbox d-none d-sm-inline-block" placeholder="Search by name or keyword" form="selTeacherForm"><input name="keyword" type="text" class="searchbox d-inline-block d-sm-none" placeholder="Search for name or keyword"><button type="submit" class="searchbox-submit" form="selTeacherForm"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
