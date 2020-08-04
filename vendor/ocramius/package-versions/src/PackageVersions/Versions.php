@@ -13,6 +13,13 @@ namespace PackageVersions;
 final class Versions
 {
     public const ROOT_PACKAGE_NAME = 'ulearnpro/ulearn';
+    /**
+     * Array of all available composer packages.
+     * Dont read this array from your calling code, but use the \PackageVersions\Versions::getVersion() method instead.
+     *
+     * @var array<string, string>
+     * @internal
+     */
     public const VERSIONS          = array (
   'chumper/zipper' => 'v1.0.2@6a1733c34d67c3952b8439afb36ad4ea5c3ceacb',
   'clue/stream-filter' => 'v1.4.1@5a58cc30a8bd6a4eb8f856adf61dd3e013f53f71',
@@ -20,7 +27,7 @@ final class Versions
   'doctrine/inflector' => 'v1.3.0@5527a48b7313d15261292c149e55e26eae771b0a',
   'doctrine/lexer' => '1.0.2@1febd6c3ef84253d7c815bed85fc622ad207a9f8',
   'dragonmantank/cron-expression' => 'v2.3.0@72b6fbf76adb3cf5bc0db68559b33d41219aba27',
-  'egulias/email-validator' => '2.1.9@128cc721d771ec2c46ce59698f4ca42b73f71b25',
+  'egulias/email-validator' => '2.1.18@cfa3d44471c7f5bfb684ac2b0da7114283d78441',
   'erusev/parsedown' => '1.7.3@6d893938171a817f4e9bc9e86f2da1e370b7bcd7',
   'fideloper/proxy' => '4.1.0@177c79a2d1f9970f89ee2fb4c12b429af38b6dfb',
   'firebase/php-jwt' => 'v5.2.0@feb0e820b8436873675fd3aca04f3728eb2185cb',
@@ -133,7 +140,7 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
   'webmozart/assert' => '1.4.0@83e253c8e0be5b0257b881e1827274667c5c17a9',
-  'ulearnpro/ulearn' => 'No version set (parsed as 1.0.0)@',
+  'ulearnpro/ulearn' => 'dev-master@052af3d5f7acccf9dc90966efb8460c7954cd147',
 );
 
     private function __construct()
@@ -142,6 +149,8 @@ final class Versions
 
     /**
      * @throws \OutOfBoundsException If a version cannot be located.
+     *
+     * @psalm-param key-of<self::VERSIONS> $packageName
      */
     public static function getVersion(string $packageName) : string
     {
@@ -150,7 +159,7 @@ final class Versions
         }
 
         throw new \OutOfBoundsException(
-            'Required package "' . $packageName . '" is not installed: cannot detect its version'
+            'Required package "' . $packageName . '" is not installed: check your ./vendor/composer/installed.json and/or ./composer.lock files'
         );
     }
 }
