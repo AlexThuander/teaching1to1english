@@ -29,68 +29,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $latestTab_courses = DB::table('courses')
-                    ->select('courses.*', 'instructors.first_name', 'instructors.last_name')
-                    ->selectRaw('AVG(course_ratings.rating) AS average_rating')
-                    ->leftJoin('course_ratings', 'course_ratings.course_id', '=', 'courses.id')
-                    ->join('instructors', 'instructors.id', '=', 'courses.instructor_id')
-                    ->where('courses.is_active',1)
-                    ->groupBy('courses.id')
-                    ->limit(8)
-                    ->orderBy('courses.updated_at', 'desc')
-                    ->get();
-        
-        $freeTab_courses = DB::table('courses')
-                    ->select('courses.*', 'instructors.first_name', 'instructors.last_name')
-                    ->selectRaw('AVG(course_ratings.rating) AS average_rating')
-                    ->leftJoin('course_ratings', 'course_ratings.course_id', '=', 'courses.id')
-                    ->join('instructors', 'instructors.id', '=', 'courses.instructor_id')
-                    ->where('courses.is_active',1)
-                    ->groupBy('courses.id')
-                    ->limit(8)
-                    ->where('courses.price', 0)
-                    ->get();
-
-        $discountTab_courses = DB::table('courses')
-                    ->select('courses.*', 'instructors.first_name', 'instructors.last_name')
-                    ->selectRaw('AVG(course_ratings.rating) AS average_rating')
-                    ->leftJoin('course_ratings', 'course_ratings.course_id', '=', 'courses.id')
-                    ->join('instructors', 'instructors.id', '=', 'courses.instructor_id')
-                    ->where('courses.is_active',1)
-                    ->groupBy('courses.id')
-                    ->limit(8)
-                    ->where('courses.strike_out_price', '<>' ,null)
-                    ->get();
-
         $instructors = DB::table('instructors')
                         ->select('instructors.*')
                         ->join('users', 'users.id', '=', 'instructors.user_id')
                         ->where('users.is_active',1)
                         ->groupBy('instructors.id')
-                        ->paginate(8);
+                        ->limit(4)
+                        ->get();
         
-        foreach($instructors as $key => $instructor) {
-
-            $student_count = DB::table('lesson_progress')
-                            ->select('lesson_progress.*')
-                            ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_time','>','now()')
-                            ->groupBy('lesson_progress.user_id')
-                            ->get()
-                            ->count();
-
-            $lesson_count = DB::table('lesson_progress')
-                            ->select('lesson_progress.*')
-                            ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_time','>','now()')
-                            ->get()
-                            ->count();
-
-            $instructors[$key]->student_count = $student_count;
-            $instructors[$key]->lesson_count = $lesson_count;
-        }
-
-        return view('site/home', compact('latestTab_courses', 'freeTab_courses', 'discountTab_courses', 'instructors'));
+        return view('welcome', compact('instructors'));
     }
 
     /**
