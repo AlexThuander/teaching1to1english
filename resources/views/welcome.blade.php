@@ -433,7 +433,7 @@
                 <div class="box" style="background-image:url(@if(Storage::exists($instructor->instructor_image)){{ Storage::url($instructor->instructor_image) }}@else{{ asset('backend/assets/images/female_profile.png') }}@endif); background-position: center bottom">
                     <div class="cover">
                         <h3 class="name">{{ $instructor->first_name.' '.$instructor->last_name }}</h3>
-                        <p class="title">{{ $instructor->contact_email }} </p>
+                        <p class="title"></p>
                         <ul>
                         </ul>
                     </div>
