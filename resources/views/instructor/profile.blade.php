@@ -166,6 +166,15 @@ figure figcaption {
                 @endif
         </div>
 
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Video Link (only mp4 file support)</label>
+            <input type="text" class="form-control" name="instructor_video" 
+                placeholder="Video Link" value="{{ $instructor->instructor_video }}" />
+                @if ($errors->has('instructor_video'))
+                    <label class="error" for="instructor_video">{{ $errors->first('instructor_video') }}</label>
+                @endif
+        </div>
+
         </div>
 
         <div class="row">

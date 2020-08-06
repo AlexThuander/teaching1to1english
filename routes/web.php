@@ -37,7 +37,7 @@ Route::get('course-breadcrumb', 'CourseController@saveBreadcrumb')->name('course
 
 Route::post('become-instructor', 'InstructorController@becomeInstructor')->name('become.instructor');
 
-Route::get('instructors/{timezone}', 'InstructorController@instructorList')->name('instructor.list');
+Route::get('instructors', 'InstructorController@instructorList')->name('instructor.list');
 Route::post('contact-instructor', 'InstructorController@contactInstructor')->name('contact.instructor');
 
 Route::post('contact-admin', 'HomeController@contactAdmin')->name('contact.admin');
@@ -47,6 +47,8 @@ Route::get('blog/{blog_slug}', 'HomeController@blogView')->name('blog.view');
 
 Route::get('fullcalendar/get-time-zones', 'FullCalendarController@getTimeZones')->name('fullcalendar.getTimeZones');
 Route::get('fullcalendar/get-events', 'FullCalendarController@getEvents')->name('fullcalendar.getEvents');
+
+Route::get('instructor-calendar', 'ScheduleController@getInstructorCalendar')->name('instructor.calendar.get');
 
 //Functions accessed by only authenticated users
 Route::group(['middleware' => 'auth'], function () {

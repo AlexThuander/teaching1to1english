@@ -3,6 +3,7 @@
 <link href="{{ asset('frontend/vendor/fullcalendar/main.css') }}" rel='stylesheet' />
 <script src="{{ asset('frontend/vendor/fullcalendar/main.js') }}"></script>
 <script src="{{ asset('backend/vendor/moment/moment.min599c.js') }}"></script>
+<script src="{{ asset('backend/vendor/moment/moment-timezone-with-data.min.js') }}"></script>
 <script>
 
 var g_remain_events_count = 0;
@@ -136,7 +137,7 @@ function createSchedule() {
 @section('content')
 <!-- banner start -->
 <div class="homepage-slide-blue home-content">
-    <form method="GET" action="{{ route('instructor.list', '_') }}" id="selTeacherForm"></form>
+    <form method="GET" action="{{ route('instructor.list') }}" id="selTeacherForm"></form>
     <div class="container">
         <div class="row">
             <div class="col-2 col-sm-1 col-md-2 col-lg-1 col-xl-1 mt-4 text-right"><label for="selCategory">Types:</label></div>
@@ -185,7 +186,7 @@ function createSchedule() {
                 </div>
             </div>
             
-            @foreach ($instructors as $index => $instructor)
+            @foreach ($instructors as $instructor)
             <div class="row mt-4 mb-4 instructor-box mx-auto">
                 <div class="col-md-4 col-lg-2 col-xl-3 pt-4 pb-4">
                     <a href="{{ route('instructor.view', $instructor->instructor_slug) }}">
@@ -247,118 +248,30 @@ function createSchedule() {
                     <!-- Nav pills -->
                     <ul class="nav nav-tabs nav-justified">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#calendar-{{ $index }}">Calendar</a>
+                            <a class="nav-link active" data-toggle="pill" href="#video-{{ $instructor->id }}">Video</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#intro-{{ $index }}">Intro</a>
+                            <a class="nav-link" data-toggle="pill" href="#intro-{{ $instructor->id }}">Intro</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#video-{{ $index }}">Video</a>
+                            <a class="nav-link" data-toggle="pill" href="#calendar-{{ $instructor->id }}" onclick="selCalendar({{ $instructor->id }})">Calendar</a>
                         </li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active" id="calendar-{{ $index }}">
-                            <table class="table table-bordered table-sm">
-                                <thead>
-                                    <th></th>
-                                    <th>Mo</th>
-                                    <th>Tu</th>
-                                    <th>We</th>
-                                    <th>Th</th>
-                                    <th>Fr</th>
-                                    <th>Sa</th>
-                                    <th>Su</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Morning<br>06:00-12:00</td>
-                                        @if(isset($instructor->timespans))
-                                        @foreach($instructor->timespans['morning'] as $timespan)
-                                        @if($timespan >= 4)
-                                        <td class="cell-high"></td>
-                                        @elseif($timespan >= 2)
-                                        <td class="cell-medium"></td>
-                                        @elseif($timespan > 0)
-                                        <td class="cell-low"></td>
-                                        @else
-                                        <td></td>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        @for($i=0;$i<7;$i++)
-                                        <td></td>
-                                        @endfor
-                                        @endif
-                                    </tr>
-                                    <tr>
-                                        <td>Afternoon<br>12:00-18:00</td>
-                                        @if(isset($instructor->timespans))
-                                        @foreach($instructor->timespans['afternoon'] as $timespan)
-                                        @if($timespan >= 4)
-                                        <td class="cell-high"></td>
-                                        @elseif($timespan >= 2)
-                                        <td class="cell-medium"></td>
-                                        @elseif($timespan > 0)
-                                        <td class="cell-low"></td>
-                                        @else
-                                        <td></td>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        @for($i=0;$i<7;$i++)
-                                        <td></td>
-                                        @endfor
-                                        @endif
-                                    </tr>
-                                    <tr>
-                                        <td>Evening<br>18:00-24:00</td>
-                                        @if(isset($instructor->timespans))
-                                        @foreach($instructor->timespans['evening'] as $timespan)
-                                        @if($timespan >= 4)
-                                        <td class="cell-high"></td>
-                                        @elseif($timespan >= 2)
-                                        <td class="cell-medium"></td>
-                                        @elseif($timespan > 0)
-                                        <td class="cell-low"></td>
-                                        @else
-                                        <td></td>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        @for($i=0;$i<7;$i++)
-                                        <td></td>
-                                        @endfor
-                                        @endif
-                                    </tr>
-                                    <tr>
-                                        <td>Night<br>00:00-06:00</td>
-                                        @if(isset($instructor->timespans))
-                                        @foreach($instructor->timespans['night'] as $timespan)
-                                        @if($timespan >= 4)
-                                        <td class="cell-high"></td>
-                                        @elseif($timespan >= 2)
-                                        <td class="cell-medium"></td>
-                                        @elseif($timespan > 0)
-                                        <td class="cell-low"></td>
-                                        @else
-                                        <td></td>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        @for($i=0;$i<7;$i++)
-                                        <td></td>
-                                        @endfor
-                                        @endif
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="tab-pane active" id="video-{{ $instructor->id }}">
+                            <video width="320" height="240" style="width: 100%;" controls>
+                                <source src="{{ $instructor->instructor_video }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                              </video>
                         </div>
-                        <div class="tab-pane container fade" id="intro-{{ $index }}">
+                        <div class="tab-pane container fade" id="intro-{{ $instructor->id }}">
                             <p>{!! mb_strimwidth($instructor->biography, 0, 120, ".....") !!}</p>
                         </div>
-                        <div class="tab-pane container fade" id="video-{{ $index }}">...</div>
+                        <div class="tab-pane container fade" id="calendar-{{ $instructor->id }}">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -673,8 +586,10 @@ function createSchedule() {
         $('#bookLessonSchedule').val(JSON.stringify(g_added_events));
     })
 
-    $(document).ready(function() {
-        $('#selTeacherForm').attr('action', $('#selTeacherForm').attr('action') + (new Date().toString().match(/([-\+][0-9]+)\s/)[1]));
-    })
+    function selCalendar(instructor_id) {
+        $.get("{{ route('instructor.calendar.get')}}", {instructor_id: instructor_id, tzname: moment.tz.guess()}, function(result) {
+            $('#calendar-' + instructor_id).html(result);
+        })
+    }
 </script>
 @endsection

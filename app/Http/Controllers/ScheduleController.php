@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App\Models\Instructor;
 use App\Models\LessonProgress;
 use App\Models\InstructorAvailableTime;
@@ -12,6 +13,93 @@ class ScheduleController extends Controller
     public function instructorScheduleList()
     {
         return view('instructor.instructor_schedule');
+    }
+
+    public function getInstructorCalendar(Request $request)
+    {
+        $instructor_id = $request->input('instructor_id');
+        $tzname = $request->input('tzname');
+
+        date_default_timezone_set("Europe/London");
+
+        $timespans = array();
+
+        $monday = strtotime("last monday");
+        $sunday = strtotime(date("Y-m-d", $monday)." +6 days");
+
+        $available_timespan = array();
+        for($i = $monday; $i <= $sunday; $i+=24*3600) {
+            $tarday = date('Y-m-d', $i);
+
+            $start = $tarday . ' 06:00:00';
+            $start = new \DateTime($start, new \DateTimeZone($tzname));
+            $start->setTimezone(new \DateTimeZone('Europe/London'));
+            $start= $start->format('Y-m-d H:i:s');
+
+            $end = $tarday . ' 12:00:00';
+            $end = new \DateTime($end, new \DateTimeZone($tzname));
+            $end->setTimezone(new \DateTimeZone('Europe/London'));
+            $end= $end->format('Y-m-d H:i:s');
+
+            $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor_id, $start, $end, $start, $end])[0]->timespan/60;
+        }
+        $timespans['morning'] = $available_timespan;
+
+        $available_timespan = array();
+        for($i = $monday; $i <= $sunday; $i+=24*3600) {
+            $tarday = date('Y-m-d', $i);
+            
+            $start = $tarday . ' 12:00:00';
+            $start = new \DateTime($start, new \DateTimeZone($tzname));
+            $start->setTimezone(new \DateTimeZone('Europe/London'));
+            $start= $start->format('Y-m-d H:i:s');
+            
+            $end = $tarday . ' 18:00:00';
+            $end = new \DateTime($end, new \DateTimeZone($tzname));
+            $end->setTimezone(new \DateTimeZone('Europe/London'));
+            $end= $end->format('Y-m-d H:i:s');
+
+            $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor_id, $start, $end, $start, $end])[0]->timespan/60;
+        }
+        $timespans['afternoon'] = $available_timespan;
+
+        $available_timespan = array();
+        for($i = $monday; $i <= $sunday; $i+=24*3600) {
+            $tarday = date('Y-m-d', $i);
+            
+            $start = $tarday . ' 18:00:00';
+            $start = new \DateTime($start, new \DateTimeZone($tzname));
+            $start->setTimezone(new \DateTimeZone('Europe/London'));
+            $start= $start->format('Y-m-d H:i:s');
+
+            $end = $tarday . ' 24:00:00';
+            $end = new \DateTime($end, new \DateTimeZone($tzname));
+            $end->setTimezone(new \DateTimeZone('Europe/London'));
+            $end= $end->format('Y-m-d H:i:s');
+
+            $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor_id, $start, $end, $start, $end])[0]->timespan/60;
+        }
+        $timespans['evening'] = $available_timespan;
+
+        $available_timespan = array();
+        for($i = $monday; $i <= $sunday; $i+=24*3600) {
+            $tarday = date('Y-m-d', $i);
+            
+            $start = $tarday . ' 00:00:00';
+            $start = new \DateTime($start, new \DateTimeZone($tzname));
+            $start->setTimezone(new \DateTimeZone('Europe/London'));
+            $start= $start->format('Y-m-d H:i:s');
+
+            $end = $tarday . ' 06:00:00';
+            $end = new \DateTime($end, new \DateTimeZone($tzname));
+            $end->setTimezone(new \DateTimeZone('Europe/London'));
+            $end= $end->format('Y-m-d H:i:s');
+
+            $available_timespan[] = DB::select("SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE, IF(start_time<?,?,start_time), IF(end_time>?,?,end_time))),0) AS timespan FROM instructor_available_time WHERE instructor_id=? and (start_time>? and start_time<? or (end_time>? and end_time<?))", [$start, $start, $end, $end, $instructor_id, $start, $end, $start, $end])[0]->timespan/60;
+        }
+        $timespans['night'] = $available_timespan;
+        
+        return view('site.instructor_calendar', compact('timespans'));
     }
 
     public function getInstructorSchedule()
