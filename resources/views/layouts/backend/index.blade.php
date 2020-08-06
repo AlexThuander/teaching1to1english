@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <meta name="_token" content="{!! csrf_token() !!}"/>
 
-  <title>1to1</title>
+  <title>teaching1to1english</title>
 
   <link rel="apple-touch-icon" href="{{ asset('backend/assets/images/apple-touch-icon.png') }}">
   <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico ') }}">
