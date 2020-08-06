@@ -59,7 +59,7 @@
                 </td>
                 <td>
                   @if($course->status == 'incomplete' && $course->expired == 0)
-                  <a href="{{ route('instructor.opentok.open', $course->id) }}" class="btn btn-xs btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Edit" >
+                  <a href="{{ route('instructor.opentok.open', $course->id) }}" class="btn btn-xs btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Open" >
                     <i class="icon wb-pencil" aria-hidden="true"></i>
                   </a>
                   @else
