@@ -2,8 +2,6 @@
 @section('head')
 <link href="{{ asset('frontend/vendor/fullcalendar/main.css') }}" rel='stylesheet' />
 <script src="{{ asset('frontend/vendor/fullcalendar/main.js') }}"></script>
-<script src="{{ asset('backend/vendor/moment/moment.min599c.js') }}"></script>
-<script src="{{ asset('backend/vendor/moment/moment-timezone-with-data.min.js') }}"></script>
 <script>
 
 var g_remain_events_count = 0;
@@ -93,7 +91,9 @@ function createSchedule() {
         g_remain_events_count++;
       },
       events: {
-        url: "{{ route('instructor.schedule.booked.get', 0) }}" + $('#bookInstructorId').val(),
+        url: "{{ route('instructor.schedule.booked.get') }}",
+        method: "GET",
+        extraParams: {instructor_id: $('#bookInstructorId').val(), tzname: moment.tz.guess()},
         failure: function() {
             document.getElementById('script-warning').style.display = 'inline'; // show
         }
@@ -360,6 +360,25 @@ function createSchedule() {
                 </div>
             </div>
             <div class="tab-pane container fade" id="planSchedule">
+                <div class="book-calendar-head">
+                    <div class="book-calendar-labels">
+                        <span class="caption book-calendar-hint"><i class="book-time-available"></i>
+                            <span>Available</span>
+                        </span>
+                        <span class="caption book-calendar-hint"><i class="book-by-others"></i>
+                            <span>Booked</span>
+                        </span>
+                        <span class="caption book-calendar-hint"><i class="book-time-not-available"></i>
+                            <span>Not available</span>
+                        </span>
+                        <span class="caption book-calendar-hint"><i class="book-time-selected"></i>
+                            <span>Booked by you</span>
+                        </span>
+                    </div>
+                    <span class="caption book-calendar-hint">
+                        <span class="user-based-timezone"><span>Based on your timezone</span> (UTC<span id="localTimeZone"></span>)</span>
+                    </span>
+                </div>
                 <div id="schedule"></div>
             </div>
             <div class="tab-pane container fade" id="confirmPurchase">
@@ -591,5 +610,9 @@ function createSchedule() {
             $('#calendar-' + instructor_id).html(result);
         })
     }
+
+    $(document).ready(function() {
+        $('#localTimeZone').html(new Date().toString().match(/([-\+][0-9]+)\s/)[1]);
+    })
 </script>
 @endsection

@@ -191,6 +191,8 @@
 
   <script src="{{ asset('backend/vendor/tinymce/tinymce.min.js?v4.0.2') }}"></script>
 
+  <script src="{{ asset('backend/vendor/moment/moment.min599c.js') }}"></script>
+  <script src="{{ asset('backend/vendor/moment/moment-timezone-with-data.min.js') }}"></script>
   
    <script>
    $.ajaxSetup({
@@ -203,6 +205,7 @@
       $(document).ready(function() {
         Site.run();
 
+        $("input[name='tzname']").val(moment.tz.guess());
 
         //override defaults for alertify
         alertify.theme('bootstrap');

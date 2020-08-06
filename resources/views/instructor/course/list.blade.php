@@ -15,9 +15,10 @@
             <div class="panel-title" style="padding-top: 50px;">
               <!-- <a href="{{ route('instructor.course.info') }}" class="btn btn-success btn-sm"><i class="icon wb-plus" aria-hidden="true"></i> Add Course</a> -->
               <div class="panel-actions">
-              <form method="GET" action="{{ route('instructor.course.list') }}">
+              <form method="GET" action="{{ route('instructor.course.list') }}" id="instructorCourseListForm">
                   <div class="input-group">
                     <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ Request::input('search') }}">
+                    <input type="hidden" name="tzname">
                     <span class="input-group-btn">
                       <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-original-title="Search"><i class="icon wb-search" aria-hidden="true"></i></button>
                       <a href="{{ route('instructor.course.list') }}" class="btn btn-danger" data-toggle="tooltip" data-original-title="Clear Search"><i class="icon wb-close" aria-hidden="true"></i></a>
@@ -88,7 +89,7 @@
 <script type="text/javascript">
     $(document).ready(function()
     { 
-
+      
     });
 </script>
 @endsection

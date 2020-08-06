@@ -40,23 +40,21 @@
               <tr>
                 <th>Sl.no</th>
                 <th>User</th>
-                <th>Category</th>
-                <th>Course</th>
                 <th>Credit</th>
                 <th>Credited on</th>
               </tr>
             </thead>
             <tbody>
+              @if($credits)
               @foreach($credits as $credit)
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $credit->user->first_name.' '.$credit->user->last_name }}</td>
-                <td>{{ $credit->course->category->name }}</td>
-                <td>{{ $credit->course->course_title }}</td>
                 <td>{{ $credit->credit }}</td>
                 <td>{{ $credit->created_at->format('d/m/Y h:i A') }}</td>
               </tr>
               @endforeach
+              @endif
             </tbody>
           </table>
           

@@ -16,10 +16,13 @@
             <div class="container">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('my.courses') }}">My Lessons</a></li>
+                <li class="breadcrumb-item"><button type="submit" form="goMyCoursesForm">My Lessons</button></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $course->course_title }}</li>
               </ol>
             </div>
+            <form action="{{ route('my.courses') }}" id="goMyCoursesForm">
+                <input type="hidden" name="tzname">
+            </form>
         </div>
     
     <!-- breadcrumb end -->

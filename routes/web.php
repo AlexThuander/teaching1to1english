@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('download-resource/{resource_id}/{course_slug}', 'CourseController@getDownloadResource');
 
-        Route::get('my-courses', 'CourseController@myCourses')->name('my.courses');
+        Route::get('my-lessons', 'CourseController@myCourses')->name('my.courses');
         Route::get('course-learn/{course_slug}', 'CourseController@courseLearn')->name('course.learn');
 
         Route::post('course-rate', 'CourseController@courseRate')->name('course.rate');
@@ -81,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('opentok/student/{lesson_id}', 'OpentokController@studentOpentok')->name('student.opentok.open');
 
-        Route::get('instructor-booked-schedule/{instructor_id}', 'ScheduleController@getBookedSchedule')->name('instructor.schedule.booked.get');
+        Route::get('instructor-booked-schedule', 'ScheduleController@getBookedSchedule')->name('instructor.schedule.booked.get');
     });
 
     //Functions accessed by both student and instructor
@@ -96,7 +96,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('instructor-schedule-get', 'ScheduleController@getInstructorSchedule')->name('instructor.schedule.get');
         Route::post('instructor-schedule-save', 'ScheduleController@saveInstructorSchedule')->name('instructor.schedule.save');
         Route::post('instructor-schedule-delete', 'ScheduleController@deleteInstructorSchedule')->name('instructor.schedule.delete');
+
         Route::get('instruction-schedule-list', 'ScheduleController@instructionScheduleList')->name('instruction.schedule.list');
+        Route::get('instruction-schedule-get', 'ScheduleController@getInstructionSchedule')->name('instruction.schedule.get');
 
         Route::get('course-create', 'CourseController@createInfo')->name('instructor.course.create');
         Route::get('instructor-course-list', 'CourseController@instructorCourseList')->name('instructor.course.list');

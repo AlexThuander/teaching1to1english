@@ -102,16 +102,29 @@ class ScheduleController extends Controller
         return view('site.instructor_calendar', compact('timespans'));
     }
 
-    public function getInstructorSchedule()
+    public function getInstructorSchedule(Request $request)
     {
+        $tzname = $request->input('timeZone');
+        if (!isset($tzname)) {
+            $tzname = $request->input('localTimeZone');
+        }
+        
         $instructor_available_times = InstructorAvailableTime::where('instructor_id', \Auth::user()->instructor->id)->get();
         
         $events = array();
         foreach($instructor_available_times as $instructor_available_time) {
+            $start = new \DateTime($instructor_available_time->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start = $start->format('Y-m-d H:i:s');
+
+            $end = new \DateTime($instructor_available_time->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+
             $event = new \stdClass();
             $event->id = $instructor_available_time->id;
-            $event->start = str_replace(' ', 'T', $instructor_available_time->start_time);
-            $event->end = str_replace(' ', 'T', $instructor_available_time->end_time);
+            $event->start = str_replace(' ', 'T', $start);
+            $event->end = str_replace(' ', 'T', $end);
             $event->color = '#257e4a';
             $events[] = $event;
         }
@@ -142,6 +155,16 @@ class ScheduleController extends Controller
 
     public function instructionScheduleList()
     {
+        return view('instructor.instruction_schedule');
+    }
+
+    public function getInstructionSchedule(Request $request)
+    {
+        $tzname = $request->input('timeZone');
+        if (!isset($tzname)) {
+            $tzname = $request->input('localTimeZone');
+        }
+
         $instructor_id = \Auth::user()->instructor->id;
         $lesson_progresses = LessonProgress::where('instructor_id', $instructor_id)
             ->where('status', 'incomplete')
@@ -149,35 +172,63 @@ class ScheduleController extends Controller
         
         $events = array();
         foreach($lesson_progresses as $lesson_progress) {
+            $start = new \DateTime($lesson_progress->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start = $start->format('Y-m-d H:i:s');
+
+            $end = new \DateTime($lesson_progress->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+
             $event = new \stdClass();
-            $event->start = str_replace(' ', 'T', $lesson_progress->start_time);
-            $event->end = str_replace(' ', 'T', $lesson_progress->end_time);
+            $event->start = str_replace(' ', 'T', $start);
+            $event->end = str_replace(' ', 'T', $end);
             $event->constraint = 'availableForLesson';
             $event->color = '#257e4a';
             $events[] = $event;
         }
-        return view('instructor.instruction_schedule')->with('events', json_encode($events));
+
+        return response()->json($events);
     }
 
-    public function getBookedSchedule($instructor_id = 0)
+    public function getBookedSchedule(Request $request)
     {
+        $instructor_id = $request->input('instructor_id');
+        $tzname = $request->input('tzname');
+
         $events = array();
 
         $instructor_available_times = InstructorAvailableTime::where('instructor_id', $instructor_id)->get();        
         foreach($instructor_available_times as $instructor_available_time) {
+            $start = new \DateTime($instructor_available_time->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start= $start->format('Y-m-d H:i:s');
+
+            $end = new \DateTime($instructor_available_time->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+
             $event = new \stdClass();
             $event->groupId = 'availableForLesson';
-            $event->start = str_replace(' ', 'T', $instructor_available_time->start_time);
-            $event->end = str_replace(' ', 'T', $instructor_available_time->end_time);
+            $event->start = str_replace(' ', 'T', $start);
+            $event->end = str_replace(' ', 'T', $end);
             $event->display = 'background';
             $events[] = $event;
         }
 
         $other_booked_times = LessonProgress::where('instructor_id', $instructor_id)->where('user_id', '<>', \Auth::user()->id)->get();
         foreach($other_booked_times as $other_booked_time) {
+            $start = new \DateTime($other_booked_time->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start= $start->format('Y-m-d H:i:s');
+
+            $end = new \DateTime($other_booked_time->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+
             $event = new \stdClass();
-            $event->start = str_replace(' ', 'T', $other_booked_time->start_time);
-            $event->end = str_replace(' ', 'T', $other_booked_time->end_time);
+            $event->start = str_replace(' ', 'T', $start);
+            $event->end = str_replace(' ', 'T', $end);
             $event->display = 'background';
             $event->color = '#DCDCDC';
             $events[] = $event;
@@ -185,9 +236,17 @@ class ScheduleController extends Controller
 
         $user_booked_times = LessonProgress::where('instructor_id', $instructor_id)->where('user_id', '=', \Auth::user()->id)->get();
         foreach($user_booked_times as $user_booked_time) {
+            $start = new \DateTime($user_booked_time->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start= $start->format('Y-m-d H:i:s');
+
+            $end = new \DateTime($user_booked_time->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+
             $event = new \stdClass();
-            $event->start = str_replace(' ', 'T', $user_booked_time->start_time);
-            $event->end = str_replace(' ', 'T', $user_booked_time->end_time);
+            $event->start = str_replace(' ', 'T', $start);
+            $event->end = str_replace(' ', 'T', $end);
             $event->display = 'background';
             $event->color = '#ff786b';
             $events[] = $event;

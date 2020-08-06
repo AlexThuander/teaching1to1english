@@ -33,7 +33,9 @@
         meridiem: false
       },
       events: {
-        url: "{{ route('fullcalendar.getEvents') }}",
+        url: "{{ route('instruction.schedule.get') }}",
+        method: "GET",
+        extraParams: {localTimeZone: moment.tz.guess()},
         failure: function() {
           document.getElementById('script-warning').style.display = 'inline'; // show
         }
@@ -45,16 +47,12 @@
           loadingEl.style.display = 'none'; // hide
         }
       },
-
-      eventTimeFormat: { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' },
-
       dateClick: function(arg) {
         console.log('dateClick', calendar.formatIso(arg.date));
       },
       select: function(arg) {
         console.log('select', calendar.formatIso(arg.start), calendar.formatIso(arg.end));
-      },
-      events: JSON.parse('<?php echo str_replace('&quot;', '"', $events) ?>')
+      }
     });
 
     calendar.render();
@@ -86,13 +84,6 @@
 </script>
 <style>
 
-  #top {
-    background: #eee;
-    border-bottom: 1px solid #ddd;
-    padding: 0 10px;
-    line-height: 40px;
-    font-size: 12px;
-  }
   .left { float: left }
   .right { float: right }
   .clear { clear: both }
@@ -140,17 +131,15 @@
       
       <div id='top'>
 
-        <div class='left'>
-          Timezone:
-          <select id='time-zone-selector'>
+        <div class='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 input-group'>
+          <span class="input-group-addon">Timezone:</span>
+          <select id='time-zone-selector' class="form-control">
             <option value='local' selected>local</option>
-            <option value='UTC'>UTC</option>
           </select>
         </div>
 
         <div class='right'>
           <span id='loading'>loading...</span>
-          <span id='script-warning'><code>{{ route('fullcalendar.getEvents') }}</code> must be running.</span>
         </div>
 
         <div class='clear'></div>

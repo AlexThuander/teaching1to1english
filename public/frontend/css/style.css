@@ -1263,3 +1263,58 @@ a.clear-filters,a.clear-filters:hover{
 .course-block img {
     width: 100%;
 }
+
+/* book calendar header style */
+.book-calendar-head {
+    display: flex;
+    margin: 10px auto 20px;
+    max-width: 960px;
+    width: 100%;
+}
+
+.book-calendar-labels {
+    display: flex;
+    flex: 1 1;
+    flex-wrap: wrap;
+}
+
+.caption {
+    font-size: 12px;
+}
+
+.book-calendar-hint {
+    display: flex;
+    margin-right: 20px;
+    align-items: center;
+    color: #777;
+}
+
+.book-calendar-labels>span {
+    margin-right: 20px;
+}
+
+.book-by-others, .book-time-available, .book-time-not-available, .book-time-selected {
+    display: inline-block;
+    margin-right: 10px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.book-time-available {
+    background-color: #7ec937;
+}
+
+.book-by-others {
+    background-color: #DCDCDC;
+}
+
+.book-time-not-available {
+    background: #fff;
+    border: 1px solid #777;
+}
+
+.book-time-selected {
+    background-color: #ff786b;
+}
+/* end */

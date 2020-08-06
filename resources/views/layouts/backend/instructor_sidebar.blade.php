@@ -27,10 +27,13 @@
             </a>
         </li>
         <li class="site-menu-item {{ request()->is('instructor-course-*') ? 'active' : '' }}">
-            <a href="{{ route('instructor.course.list') }}">
+            <a href="javascript:void(0)" onclick="$(this).next().submit()">
                 <i class="site-menu-icon fas fa-chalkboard" aria-hidden="true"></i>
                 <span class="site-menu-title">Lessons</span>
             </a>
+            <form method="GET" action="{{ route('instructor.course.list') }}">
+                <input type="hidden" name="tzname">
+            </form>
         </li>
         <li class="site-menu-item {{ request()->is('instructor-credits') ? 'active' : '' }}">
             <a href="{{ route('instructor.credits') }}">

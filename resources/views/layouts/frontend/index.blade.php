@@ -16,6 +16,7 @@
 
         <link rel="stylesheet" href="{{ asset('backend/fonts/web-icons/web-icons.min599c.css?v4.0.2') }}">
         <link rel="stylesheet" href="{{ asset('backend/vendor/toastr/toastr.min599c.css?v4.0.2') }}">
+
         @yield('head')
     </head>
     <body>
@@ -58,9 +59,9 @@
                     </a>
                     @endif
 
-                    <a class="dropdown-item" href="{{ route('my.courses') }}" >
+                    <button type="submit" class="dropdown-item" form="goMyCoursesForm">
                         <i class="fa fa-sign-out-alt"></i> My Lessons
-                    </a>
+                    </button>
 
                     <a class="dropdown-item" href="{{ route('logOut') }}" >
                         <i class="fa fa-sign-out-alt"></i> Logout
@@ -68,6 +69,9 @@
                     
                   </div>
                 </div>
+                <form action="{{ route('my.courses') }}" id="goMyCoursesForm">
+                    <input type="hidden" name="tzname">
+                </form>
             </div>
             @endguest
         </div>
@@ -201,7 +205,8 @@
     <!-- Toastr -->
     <script src="{{ asset('backend/vendor/toastr/toastr.min599c.js?v4.0.2') }}"></script>
 
-    
+    <script src="{{ asset('backend/vendor/moment/moment.min599c.js') }}"></script>
+    <script src="{{ asset('backend/vendor/moment/moment-timezone-with-data.min.js') }}"></script>    
 
     <script>
     $(window).on("load", function (e){
@@ -211,7 +216,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function()
-        {   
+        {
+            $("input[name='tzname']").val(moment.tz.guess());
+
             /* Delete record */
             $('.delete-record').click(function(event)
             {

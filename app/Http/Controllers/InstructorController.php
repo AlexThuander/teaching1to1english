@@ -76,7 +76,7 @@ class InstructorController extends Controller
             $student_count = DB::table('lesson_progress')
                             ->select('lesson_progress.*')
                             ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_time','>','now()')
+                            ->where('end_time','>','UTC_TIMESTAMP()')
                             ->groupBy('lesson_progress.user_id')
                             ->get()
                             ->count();
@@ -84,7 +84,7 @@ class InstructorController extends Controller
             $lesson_count = DB::table('lesson_progress')
                             ->select('lesson_progress.*')
                             ->where('lesson_progress.instructor_id',$instructor->id)
-                            ->where('end_time','>','now()')
+                            ->where('end_time','>','UTC_TIMESTAMP()')
                             ->get()
                             ->count();
 

@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     events: {
       url: "{{ route('instructor.schedule.get') }}",
+      method: "GET",
+      extraParams: {localTimeZone: moment.tz.guess()},
       failure: function() {
         document.getElementById('script-warning').style.display = 'inline'; // show
       }
@@ -164,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
           <span class="input-group-addon">Timezone:</span>
           <select id='time-zone-selector' class="form-control">
             <option value='local' selected>local</option>
-            <option value='UTC'>UTC</option>
           </select>
         </div>
 

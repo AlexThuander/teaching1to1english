@@ -36,6 +36,8 @@ class CourseController extends Controller
 
     public function myCourses(Request $request)
     {
+        $tzname = $request->input('tzname');
+
         $user_id = \Auth::user()->id;
         $courses = DB::table('courses')
                     ->select('courses.*', 'instructors.first_name', 'instructors.last_name')
@@ -47,9 +49,21 @@ class CourseController extends Controller
                     ->select('lesson_progress.id', 'lesson_progress.start_time', 'lesson_progress.end_time', 'instructors.first_name', 'instructors.last_name', 'instructors.instructor_image', 'instructors.instructor_stars')
                     ->join('instructors', 'instructors.id', '=', 'lesson_progress.instructor_id')
                     ->where('lesson_progress.user_id', \Auth::user()->id)
-                    ->where('lesson_progress.end_time', '>', 'now()')
+                    ->whereRaw('lesson_progress.end_time>UTC_TIMESTAMP()')
+                    ->where('lesson_progress.status', 'incomplete')
                     ->get();
         
+        foreach($lessons as $key => $lesson) {
+            $start = new \DateTime($lesson->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start= $start->format('Y-m-d H:i:s');
+            $lessons[$key]->start_time = $start;
+
+            $end = new \DateTime($lesson->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+            $lessons[$key]->end_time = $end;
+        }
         return view('site.course.my-courses', compact('lessons'));
     }
 
@@ -338,8 +352,9 @@ class CourseController extends Controller
 
     public function instructorCourseList(Request $request)
     {
-        $paginate_count = 10;
+        $tzname = $request->input('tzname');
 
+        $paginate_count = 10;
         
         $instructor_id = \Auth::user()->instructor->id;
         if($request->has('search')){
@@ -360,7 +375,19 @@ class CourseController extends Controller
                         ->where('instructor_lessons.instructor_id', $instructor_id)
                         ->paginate($paginate_count);
         }
-        // echo '<pre>';print_r($courses);exit;
+        
+        foreach($courses as $key => $course) {
+            $start = new \DateTime($course->start_time, new \DateTimeZone('Europe/London'));
+            $start->setTimezone(new \DateTimeZone($tzname));
+            $start= $start->format('Y-m-d H:i:s');
+            $courses[$key]->start_time = $start;
+
+            $end = new \DateTime($course->end_time, new \DateTimeZone('Europe/London'));
+            $end->setTimezone(new \DateTimeZone($tzname));
+            $end= $end->format('Y-m-d H:i:s');
+            $courses[$key]->end_time = $end;
+        }
+
         return view('instructor.course.list', compact('courses'));
     }
 
