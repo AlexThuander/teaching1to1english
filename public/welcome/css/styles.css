@@ -62,12 +62,13 @@ p {
   border:none;
   border-radius:0;
   margin-bottom:0;
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.35);
   display:block;
-  position:absolute;
+  position:fixed;
   left:0;
   right:0;
-  bottom:0;
+  top:0;
+  z-index: 9999;
 }
 
 .nav-main-wrapper .navbar-brand {
@@ -96,8 +97,8 @@ p {
   text-shadow:none;
   background:none;
   text-transform:uppercase;
-  font-size:12px;
-  color:#9c9c9c;
+  font-size:18px;
+  color:#fff;
 }
 
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover, .nav-main-wrapper .navbar-nav > .active > a, .nav-main-wrapper .navbar-nav > .open > a, .nav-main-wrapper .navbar-nav > .open > a:hover, .nav-main-wrapper .navbar-nav > .active > a:hover {
@@ -337,6 +338,10 @@ p {
 }
 
 /*Footer*/
+.site-footer {
+  border-top: #d8d8d8 1px solid;
+}
+
 .site-footer h5 {
   font-size:20px;
 }

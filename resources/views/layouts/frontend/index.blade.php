@@ -27,7 +27,7 @@
         <div class="row" style="flex-grow: 1;">
             <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2" id="logo">
                 <i class="fa fa-bars d-inline-block d-md-none mobile-nav"></i>
-                <a href="{{ route('home') }}" class="float-xl-right"><img src="{{ asset('frontend/img/logo.png') }}" width="100" height="23" /></a>
+                <a href="@if(Auth::check()){{ route('home') }}@else{{ route('welcome') }}@endif" class="float-xl-right"><img src="{{ asset('frontend/img/logo.png') }}" width="100" height="23" /></a>
             </div>
 
             <div class="col-md-2 col-lg-3 col-xl-3 d-none d-md-block">

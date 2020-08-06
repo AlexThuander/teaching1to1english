@@ -316,16 +316,6 @@
 </div>
 
 <div class="container-fluid main-header-text">
-    <div class="top-header-container">
-        <div id="home" class="header-cell"
-             style="height:667px;">
-            <h1 style="font-family:'Rajdhani', sans-serif; letter-spacing: 2px;"><span
-                        style="color: #0EBCF3;">1to1</span> Learning management System</h1>
-            <p style="font-family:'Rajdhani', sans-serif; font-size: 20px;">Easy Communication Between Teachers and
-                Students which allaws them to make and participate in Lessons, create and solve Quizzes with amazing
-                Features, Let's see them ...</p>
-        </div>
-    </div>
     <nav id="navbar_middle" class="navbar navbar-default nav-main-wrapper"
          style="font-family: 'Rajdhani', sans-serif; font-weight: bolder;">
         <div class="container">
@@ -344,7 +334,7 @@
                             @if (Auth::check())
                                 <a style="color:#0EBCF3;" href="{{ url('/dashboard') }}">Dashboard</a>
                             @else
-                                <a href="{{ route('login') }}" style="color:#0EBCF3; background-color:inherit; border:none;">Login</a>
+                                <a href="{{ route('login') }}">Login/SignUp</a>
                             @endif
                         @endif
                     </li>
@@ -365,6 +355,16 @@
             </div>
         </div>
     </nav>
+    <div class="top-header-container">
+        <div id="home" class="header-cell"
+             style="height:620px;">
+            <h1 style="font-family:'Rajdhani', sans-serif; letter-spacing: 2px;"><span
+                        style="color: #0EBCF3;">1to1</span> Learning management System</h1>
+            <p style="font-family:'Rajdhani', sans-serif; font-size: 20px;">Easy Communication Between Teachers and
+                Students which allaws them to make and participate in Lessons, create and solve Quizzes with amazing
+                Features, Let's see them ...</p>
+        </div>
+    </div>
 </div>
 <div class="team-clean">
     <div class="container">
@@ -455,22 +455,6 @@
 <script src="{{asset('welcome/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('welcome/js/jquery.min.js')}}"></script>
 <script src="{{asset('welcome/bootstrap/js/bootstrap.min.js')}}"></script>
-<script type="text/javascript">
-    $(function () {
-        "use strict"
-        $(window).on("scroll", function () {
-            var scroll_value = $(window).scrollTop();
-            console.log(scroll_value);
-            if (scroll_value > 618) {
-                $('#navbar_middle').css('top', scroll_value + "px");
-                $('#navbar_middle').css('z-index', 4);
-            } else {
-                $('#navbar_middle').css('top', 618 + "px");
-            }
-        })
-    })
-    $("#myModal").modal({"backdrop": "static"});
-</script>
 </body>
 
 </html>

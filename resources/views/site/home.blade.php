@@ -614,5 +614,19 @@ function createSchedule() {
     $(document).ready(function() {
         $('#localTimeZone').html(new Date().toString().match(/([-\+][0-9]+)\s/)[1]);
     })
+
+    // $(function () {
+    //     "use strict"
+    //     $(window).on("scroll", function () {
+    //         var scroll_value = $(window).scrollTop();
+    //         console.log(scroll_value);
+    //         if (scroll_value > 618) {
+    //             $('#navbar_middle').css('top', scroll_value + "px");
+    //             $('#navbar_middle').css('z-index', 4);
+    //         } else {
+    //             $('#navbar_middle').css('top', 618 + "px");
+    //         }
+    //     })
+    // })
 </script>
 @endsection
