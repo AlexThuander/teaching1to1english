@@ -143,7 +143,7 @@ class OpentokController extends Controller
         ]);
     }
 
-    public function instructorOpentok(Request $request)
+    public function instructorOpentok($lesson_id)
     {
         // Check if session example already exists.
         $sessions = DB::table('laratok_sessions')
@@ -157,7 +157,7 @@ class OpentokController extends Controller
             $session_params = array();
             $session_params['name'] = self::LARATOK_SESSION_NAME_EXAMPLE;
             $session = $this->generateSession(\Auth::user()->instructor->id, $session_params);
-            $this->generateToken($request->lesson_id, $session);
+            $this->generateToken($lesson_id, $session);
         }
 
         // Retrieve session and token.
@@ -166,21 +166,21 @@ class OpentokController extends Controller
             ->crossJoin('laratok_tokens', 'laratok_sessions.id', '=', 'laratok_tokens.session_id')
             ->select('laratok_tokens.*', 'laratok_sessions.*')
             ->where('laratok_sessions.instructor_id', \Auth::user()->instructor->id)
-            ->where('laratok_tokens.lesson_progress_id', $request->lesson_id)
+            ->where('laratok_tokens.lesson_progress_id', $lesson_id)
             ->get()
             ->first();
 
         return view('signaling', compact('laratok'));
     }
 
-    public function studentOpentok(Request $request)
+    public function studentOpentok($lesson_id)
     {
         // Retrieve session and token.
         $laratok = DB::table('laratok_sessions')
             ->select('sessionId')
             ->crossJoin('laratok_tokens', 'laratok_sessions.id', '=', 'laratok_tokens.session_id')
             ->select('laratok_tokens.*', 'laratok_sessions.*')
-            ->where('laratok_tokens.lesson_progress_id', $request->lesson_id)
+            ->where('laratok_tokens.lesson_progress_id', $lesson_id)
             ->get()
             ->first();
 

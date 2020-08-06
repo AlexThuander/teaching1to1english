@@ -77,7 +77,7 @@
         <div id="textchat">
             <p id="history"></p>
             <form>
-                <input type="text" placeholder="Input your text here" id="msgTxt"></input>
+                <input type="text" placeholder="Input your text here" id="msgTxt">
             </form>
         </div>
         <script charset="utf-8">
