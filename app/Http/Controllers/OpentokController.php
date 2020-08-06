@@ -170,7 +170,7 @@ class OpentokController extends Controller
             ->get()
             ->first();
 
-        return view('signaling', compact('laratok'));
+        return view('simples', compact('laratok'));
     }
 
     public function studentOpentok($lesson_id)
@@ -186,6 +186,6 @@ class OpentokController extends Controller
 
         if ($laratok == null) return redirect()->back();
 
-        return view('signaling', compact('laratok'));
+        return view('simples', compact('laratok'));
     }
 }
