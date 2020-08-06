@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>LaraTok - Signaling</title>
+        <title>teaching1to1english</title>
 
         <script src="https://static.opentok.com/v2/js/opentok.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>LaraTok - Simple</title>
+        <title>teaching1to1english</title>
         <script src="https://static.opentok.com/v2/js/opentok.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <style>
