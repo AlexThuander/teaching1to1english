@@ -95,7 +95,7 @@ class PaymentController extends Controller {
 		// get all values from form
 		$payment_method = $request->input('payment_method');
 		$paypal_amount = $amount = $request->input('lesson_amount');
-		$schedule = json_decode($request->input('lesson_schedule'));
+		$events = json_decode($request->input('lesson_schedule'));
 		$instructor_id = $request->input('instructor_id');
 		$lesson_count = $request->input('lesson_count');
 		$gateway = \Omnipay::gateway('paypal');
@@ -113,7 +113,7 @@ class PaymentController extends Controller {
 			}
 
 			$lesson_progress_ids = array();
-			foreach($schedule as $event) {
+			foreach($events as $event) {
 				//save the lesson progress in DB
 				$lesson_progress = new LessonProgress;
 				$lesson_progress->instructor_id = $instructor_id;

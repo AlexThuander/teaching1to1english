@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('download-resource/{resource_id}/{course_slug}', 'CourseController@getDownloadResource');
 
         Route::get('my-lessons', 'CourseController@myCourses')->name('my.courses');
-        Route::get('course-learn/{course_slug}', 'CourseController@courseLearn')->name('course.learn');
+        Route::get('course-learn/{lesson_id}', 'CourseController@courseLearn')->name('course.learn');
 
         Route::post('course-rate', 'CourseController@courseRate')->name('course.rate');
         Route::get('delete-rating/{raing_id}', 'CourseController@deleteRating')->name('delete.rating');
@@ -190,7 +190,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('course-enroll/{course_slug}/{lecture_slug}', function () {
             return view('site/course/course_enroll');
         });
-        Route::get('course-learn/{course_slug}', 'CourseController@courseLearn')->name('course.learn');
+        //Route::get('course-learn', 'CourseController@courseLearn')->name('course.learn');
     });
     
 });

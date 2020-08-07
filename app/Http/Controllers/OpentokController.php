@@ -186,6 +186,6 @@ class OpentokController extends Controller
 
         if ($laratok == null) return redirect()->back();
 
-        return view('signaling', compact('laratok'));
+        return view('signaling', compact('laratok', 'lesson_id'));
     }
 }

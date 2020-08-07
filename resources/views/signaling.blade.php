@@ -88,9 +88,10 @@
 
             var response;
 
-            $(document).ready(function() {
-                // Make an Ajax request to get the OpenTok API key, session ID, and token from the server
+            $(document).ready(function() {                
+                window.open("{{ route('course.learn', $lesson_id) }}", '_blank');
 
+                // Make an Ajax request to get the OpenTok API key, session ID, and token from the server
                 initializeSession();
             });
 

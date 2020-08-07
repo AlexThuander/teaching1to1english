@@ -119,27 +119,25 @@ class CourseController extends Controller
         return view('site.course.view', compact('course', 'curriculum_sections', 'lectures_count', 'videos_count', 'video', 'course_breadcrumb', 'is_curriculum'));
     }
 
-    public function courseLearn($course_slug = '', Request $request)
-    {   
+    public function courseLearn($lesson_id)
+    {
         $course_breadcrumb = Session::get('course_breadcrumb');
-        $course = Course::where('course_slug', $course_slug)->first();
+        $course = DB::table('lesson_progress')
+            ->select('lesson_progress.*', 'instructors.first_name', 'instructors.last_name', 'instruction_levels.level')
+            ->selectRaw('TIMESTAMPDIFF(MINUTE,lesson_progress.start_time,lesson_progress.end_time) AS duration, categories.name AS lesson_type')
+            ->join('instructors', 'instructors.id', '=', 'lesson_progress.instructor_id')
+            ->join('instructor_filters', 'instructor_filters.instructor_id', '=', 'instructors.id')
+            ->join('categories', 'categories.id', '=', 'instructor_filters.category_id')
+            ->join('instruction_levels', 'instruction_levels.id', '=', 'instructor_filters.instruction_level_id')
+            ->where('lesson_progress.id', $lesson_id)
+            ->first();
 
-        $students_count = $this->model->students_count($course->id);
-        $curriculum = $this->model->getcurriculum($course->id);
-        $curriculum_sections = $curriculum['sections'];
-        $lectures_count = $curriculum['lectures_count'];
-        $videos_count = $curriculum['videos_count'];
-        $is_curriculum = $curriculum['is_curriculum'];
-        $video = null;
-        if($course->course_video)
-        {
-            $video = $this->model->getvideoinfoFirst($course->course_video); 
-        }
         $course_rating = CourseRating::where('course_id', $course->id)->where('user_id', \Auth::user()->id)->first();
         if(!$course_rating) {
             $course_rating = $this->getColumnTable('course_ratings');
         }
-        return view('site.course.learn', compact('course', 'curriculum_sections', 'lectures_count', 'videos_count', 'video', 'course_breadcrumb', 'is_curriculum', 'course_rating', 'students_count'));
+        
+        return view('site.course.learn', compact('course', 'course_breadcrumb', 'course_rating'));
     }
 
     public function updateLectureStatus($course_id='', $lecture_id='', $status = '')
