@@ -72,7 +72,7 @@
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
             Leave
         </button>
-        <form href="{{ route('course.learn', $lesson_id) }}" id="go2CourseLearnForm"></a>
+        <form href="{{ route('course.learn', $lesson_id) }}" id="go2CourseLearnForm"></form>
         
         <!-- The Modal -->
         <div class="modal fade" id="myModal">
