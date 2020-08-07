@@ -69,12 +69,11 @@
     </head>
 
     <body>
-        @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
-        <button type="submit" class="btn btn-danger btn-lg" form="go2CourseLearnForm">Leave</button>
-        <form method="GET" href="{{ route('course.learn', $lesson_id) }}" id="go2CourseLearnForm"></form>
-        @endif
-
+        
         <div id="videos">
+            @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
+            <a href="{{ route('course.learn', $lesson_id) }}" class="btn btn-danger btn-lg">Leave</a>
+            @endif
             <div id="subscriber"></div>
             <div id="publisher"></div>
         </div>
