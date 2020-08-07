@@ -93,7 +93,9 @@
                 // Make an Ajax request to get the OpenTok API key, session ID, and token from the server
                 initializeSession();
 
+                @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
                 $("#go2CourseLearnLink").click();
+                @endif
             });
 
             function initializeSession() {
