@@ -68,7 +68,38 @@
     </head>
 
     <body>
-        <a href="{{ route('course.learn', $lesson_id) }}" target="_blank" id="go2CourseLearnLink"></a>
+        @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+            Leave
+        </button>
+        <form href="{{ route('course.learn', $lesson_id) }}" id="go2CourseLearnForm"></a>
+        
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                Do you really leave?
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                
+            </div>
+            </div>
+        </div>
+        @endif
 
         <div id="videos">
             <div id="subscriber"></div>
@@ -92,10 +123,6 @@
             $(document).ready(function() {                
                 // Make an Ajax request to get the OpenTok API key, session ID, and token from the server
                 initializeSession();
-
-                @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
-                $("#go2CourseLearnLink").click();
-                @endif
             });
 
             function initializeSession() {
