@@ -70,36 +70,8 @@
 
     <body>
         @if(Auth::check() && !Auth::user()->hasRole('instructor') && !Auth::user()->hasRole('admin'))
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-            Leave
-        </button>
-        <form href="{{ route('course.learn', $lesson_id) }}" id="go2CourseLearnForm"></form>
-        
-        <!-- The Modal -->
-        <div class="modal fade" id="myModal">
-            <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            
-                <!-- Modal Header -->
-                <div class="modal-header">
-                <h4 class="modal-title">Confirmation</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="modal-body">
-                Do you really leave?
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger" form="go2CourseLearnForm">Confirm</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-                
-            </div>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-danger btn-lg" form="go2CourseLearnForm">Leave</button>
+        <form method="GET" href="{{ route('course.learn', $lesson_id) }}" id="go2CourseLearnForm"></form>
         @endif
 
         <div id="videos">
