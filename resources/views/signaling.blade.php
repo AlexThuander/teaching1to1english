@@ -68,6 +68,7 @@
     </head>
 
     <body>
+        <a href="{{ route('course.learn', $lesson_id) }}" target="_blank" id="go2CourseLearnLink"></a>
 
         <div id="videos">
             <div id="subscriber"></div>
@@ -92,7 +93,7 @@
                 // Make an Ajax request to get the OpenTok API key, session ID, and token from the server
                 initializeSession();
 
-                window.open("{{ route('course.learn', $lesson_id) }}", '_blank');
+                $("#go2CourseLearnLink").click();
             });
 
             function initializeSession() {
