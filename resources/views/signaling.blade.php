@@ -92,7 +92,7 @@
                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Confirm</button>
+                    <button type="submit" class="btn btn-danger" form="go2CourseLearnForm">Confirm</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 
