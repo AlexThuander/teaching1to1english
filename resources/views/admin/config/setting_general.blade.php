@@ -126,7 +126,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label class="form-control-label">Admin Commision</label>
+              <label class="form-control-label">Teacher Commision</label>
               <input type="text" class="form-control" name="admin_commission" 
                 placeholder="Admin Commision" value="{{ isset($config['admin_commission']) ? $config['admin_commission'] : '' }}" />
             </div>

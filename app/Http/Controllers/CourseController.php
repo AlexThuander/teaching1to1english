@@ -20,7 +20,10 @@ use URL;
 use App\Models\CourseVideos;
 use App\Models\CourseFiles;
 use Session;
-
+use App\Models\LessonProgress;
+use App\Models\Config;
+use App\Models\Credit;
+use App\Models\Instructor;
 
 class CourseController extends Controller
 {
@@ -90,8 +93,51 @@ class CourseController extends Controller
         // echo '<pre>';print_r($rating);exit;
         $rating->save();
 
+        $lesson_progress = LessonProgress::find($rating->course_id);
+        $lesson_progress->status = "complete";
+        $lesson_progress->save();
+        
+        $this->save_credit($lesson_progress);
+        
         return $this->return_output('flash', 'success', $success_message, 'back', '200');
     }
+
+	function save_credit($lesson_progress)
+	{
+		//get commision percentage from db
+        $commision_percentage = Config::get_option('settingGeneral', 'admin_commission');
+        
+		//calculate the credits
+		$amount = $lesson_progress->price;
+		$instructor_credit = ($amount * $commision_percentage)/100;
+		$admin_credit = $amount - $instructor_credit;
+
+		//save credit for instructor
+		$credit = new Credit;
+		$credit->transaction_id = $lesson_progress->transaction_id;
+		$credit->instructor_id = $lesson_progress->instructor_id;
+		$credit->user_id = $lesson_progress->user_id;
+		$credit->is_admin = 0;
+		$credit->credits_for = 1;
+		$credit->credit = $instructor_credit;
+		$credit->created_at = time();
+
+		$credit->save();
+
+        //update the total credits
+        $instructor = Instructor::find($lesson_progress->instructor_id)->increment('total_credits', $instructor_credit);
+        
+		//save credit for admin
+		$credit = new Credit;
+		$credit->transaction_id = $lesson_progress->transaction_id;
+		$credit->instructor_id = 0;
+		$credit->course_id = $lesson_progress->id;
+		$credit->user_id = $lesson_progress->user_id;
+		$credit->is_admin = 1;
+		$credit->credits_for = 2;
+		$credit->credit = $admin_credit;
+		$credit->save();
+	}
 
     public function deleteRating($rating_id, Request $request)
     {

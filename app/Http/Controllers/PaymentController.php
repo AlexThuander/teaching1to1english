@@ -63,6 +63,8 @@ class PaymentController extends Controller {
 			
 				foreach($lesson_progress_ids as $lesson_progress_id) {
 					$lesson_progress = LessonProgress::find($lesson_progress_id);
+					$lesson_progress->transaction_id = $transaction_id;
+					$lesson_progress->price = $transaction->amount/count($lesson_progress_ids);
 					$lesson_progress->status = 'incomplete';
 					$lesson_progress->save();
 				}
@@ -216,7 +218,7 @@ class PaymentController extends Controller {
         //update the total credits
         $instructor = Instructor::find($instructor_id)->increment('total_credits', $instructor_credit);
         
-		//save credit for instructor
+		//save credit for admin
 		$credit = new Credit;
 		$credit->transaction_id = $transaction_id;
 		$credit->instructor_id = 0;
