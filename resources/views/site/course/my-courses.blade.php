@@ -83,8 +83,8 @@
                     <div class="row">
                     <div class="col-12 not-found-col">
                             <span><b>2<span class="blue">0</span>4</b></span>
-                            <h3>Sorry! No courses added to your account</h3>
-                            <a href="{{ route('home') }}" class="btn btn-ulearn-cview mt-3">Explore Courses</a>
+                            <h3>Sorry! No lessons added to your account</h3>
+                            <a href="{{ route('home') }}" class="btn btn-ulearn-cview mt-3">Explore Teachers</a>
                     </div>
                     </div>
                 </article>
