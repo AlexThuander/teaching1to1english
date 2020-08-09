@@ -114,33 +114,10 @@
     <footer id="main-footer">
         <div class="row m-0">
             <div class="col-lg-2 col-md-4 col-sm-4 col-6 mt-3">
-                <ul>
-                    <li class="mb-1"><b>Quick Links</b></li>
-                    <li><a href="{{ route('home') }}">Home Page</a></li>
-                    <li><a href="{{ route('course.list') }}">Courses List</a></li>
-                    <li><a href="">Instructors List</a></li>
-                    <li><a href="{{ route('blogs') }}">Blogs List</a></li>
-                </ul>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-4 col-6 mt-3">
-                <ul>
-                    <li class="mb-1"><b>Resources</b></li>
-                    <li><a href="{{ route('page.about') }}">About Us</a></li>
-                    <li><a href="{{ route('page.contact') }}">Contact Us</a></li>
-                    <li><a href="{{ route('register') }}">Register Page</a></li>
-                    <li><a href="{{ route('login') }}">Login Page</a></li>
-                </ul>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-4 mt-3 d-none d-sm-block">
-                <ul>
-                    <li class="mb-1"><b>Top Categories</b></li>
-                    @foreach ($categories as $category)
-                        @if($loop->iteration <= 4)
-                            <li><a href="{{ route('course.list','category_id[]='.$category->id) }}">{{ $category->name}}</a></li>
-                        @endif
-                    @endforeach
-                    
-                </ul>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12 text-center mt-4">
                 <img src="{{ asset('frontend/img/logo_footer.png') }}" class="img-fluid" width="210" height="48">
