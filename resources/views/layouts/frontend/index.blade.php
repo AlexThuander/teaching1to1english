@@ -302,9 +302,9 @@
         socket.onopen = function(e) {
             console.log("[open] Connection established");
             console.log("Sending to server");
-            @if(Auth::user()->hasRole('instructor'))
+            @if(Auth::user() && Auth::user()->hasRole('instructor'))
             socket.send("instructor:{{ Auth::user()->instructor->id }}");
-            @else
+            @guest
             socket.send("user:{{ Auth::user()->id }}");
             @endif
         };
