@@ -297,19 +297,19 @@
             });
         });
 
+        @guest
+        @else
         let socket = new WebSocket("ws://localhost:5003");
 
         socket.onopen = function(e) {
             console.log("[open] Connection established");
             console.log("Sending to server");
-            @guest
-            @else
+            
             @if(Auth::user() && Auth::user()->hasRole('instructor'))
             socket.send("instructor:{{ Auth::user()->instructor->id }}");
             @elseif(Auth::user() && !Auth::user()->hasRole('admin'))
             socket.send("user:{{ Auth::user()->id }}");
             @endif
-            @endguest
         };
 
         socket.onmessage = function(event) {
@@ -336,6 +336,7 @@
         socket.onerror = function(error) {
             console.log(`[error] ${error.message}`);
         };
+        @endguest
     </script>
     @yield('javascript')
 </html>
