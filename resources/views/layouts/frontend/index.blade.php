@@ -302,11 +302,14 @@
         socket.onopen = function(e) {
             console.log("[open] Connection established");
             console.log("Sending to server");
+            @guest
+            @else
             @if(Auth::user() && Auth::user()->hasRole('instructor'))
             socket.send("instructor:{{ Auth::user()->instructor->id }}");
-            @guest
+            @elseif(Auth::user() && !Auth::user()->hasRole('admin'))
             socket.send("user:{{ Auth::user()->id }}");
             @endif
+            @endguest
         };
 
         socket.onmessage = function(event) {
