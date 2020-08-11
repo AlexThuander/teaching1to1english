@@ -371,35 +371,25 @@
         <div class="intro">
             <h2 class="text-center" id="features" style="font-family:'Mallanna';">FEATURES</h2></div>
         <div class="row people">
-            <div class="col-md-4 col-sm-6 item"><img class="img-circle" src="{{asset('welcome/img/7627.jpg')}}">
+            <div class="col-md-6 col-sm-6 item"><img class="img-circle" src="{{asset('welcome/img/7627.jpg')}}">
                 <h3 class="name">Responsive Designes</h3>
                 <p class="description">Web Application has the same view for all devices.</p>
             </div>
-            <div class="col-md-4 col-sm-6 item"><img class="img-circle"
+            <div class="col-md-6 col-sm-6 item"><img class="img-circle"
                                                      src="{{asset('welcome/img/school and education 03.jpg')}}">
                 <h3 class="name">Booking New Lessons</h3>
                 <p class="description">Students can book their Lessons at teachers' available schedules.</p>
             </div>
-            <div class="col-md-4 col-sm-6 item"><img class="img-circle"
-                                                     src="{{asset('welcome/img/97350-OKYIEE-393.jpg')}}">
-                <h3 class="name">Creating &amp; Sloving Quizzes</h3>
-                <p class="description">Create online quizzes for students with a certain duration, start date and due
-                    date.</p>
-            </div>
             <div class="col-md-12">
                 <hr>
             </div>
-            <div class="col-md-4 col-sm-6 item"><img class="img-circle" src="{{asset('welcome/img/images.jpg')}}">
-                <h3 class="name">Online Judge</h3>
-                <p class="description">System provides online judge feature for quizzes between teachers and students.</p>
-            </div>
-            <div class="col-md-4 col-sm-6 item"><img class="img-circle"
+            <div class="col-md-6 col-sm-6 item"><img class="img-circle"
                                                      src="{{asset('welcome/img/chart_diagram_analytics_business_flat_icon-512.png')}}">
                 <h3 class="name">Statistics and Charts </h3>
                 <p class="description">Statistics for your lesson including hardest question, how many got the full mark
                     and a lot more.</p>
             </div>
-            <div class="col-md-4 col-sm-6 item"><img class="img-circle"
+            <div class="col-md-6 col-sm-6 item"><img class="img-circle"
                                                      src="{{asset('welcome/img/feedback-1311638_960_720.png')}}">
                 <h3 class="name">Get your Feedback! </h3>
                 <p class="description">UNDER CONSTRUCTION</p>
